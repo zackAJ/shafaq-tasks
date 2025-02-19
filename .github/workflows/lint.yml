@@ -1,5 +1,8 @@
 name: Fix Code Style
 
+defaults:
+  run:
+    working-directory: backend
 on:
   push:
     branches:
