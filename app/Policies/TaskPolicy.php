@@ -4,14 +4,14 @@ namespace App\Policies;
 
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
+//FIX: not triggering for some reason
 class TaskPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
         return false;
     }
@@ -21,15 +21,15 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        return false;
+        return $this->taskOwnedBy($task, $user);
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return false;
+        return $this->taskOwnedBy($task, $user);
     }
 
     /**
@@ -45,7 +45,7 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        return false;
+        return $this->taskOwnedBy($task, $user);
     }
 
     /**
@@ -61,6 +61,11 @@ class TaskPolicy
      */
     public function forceDelete(User $user, Task $task): bool
     {
-        return false;
+        return $this->taskOwnedBy($task, $user);
+    }
+
+    private function taskOwnedBy(Task $task, User $user): bool
+    {
+        return $task->user()->is($user);
     }
 }

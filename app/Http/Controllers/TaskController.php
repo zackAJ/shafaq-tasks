@@ -2,58 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTaskRequest;
-use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\StoreOrUpdateTaskRequest;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
-        //
-    }
+        $tasks = auth()->user()->tasks()->paginate(10);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return TaskResource::collection($tasks);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTaskRequest $request)
+    public function store(StoreOrUpdateTaskRequest $request): TaskResource
     {
-        //
+        $task = $request
+            ->user()
+            ->tasks()
+            ->create($request->validated());
+
+        return new TaskResource($task);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(Task $task): TaskResource
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Task $task)
-    {
-        //
+        return new TaskResource($task);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(StoreOrUpdateTaskRequest $request, Task $task): TaskResource
     {
-        //
+        $task->update($request->validated());
+
+        return new TaskResource($task);
     }
 
     /**
@@ -61,6 +55,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+
+        return response()->noContent();
     }
 }

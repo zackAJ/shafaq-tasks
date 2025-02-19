@@ -1,0 +1,11 @@
+meta {
+  name: delete task
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{url}}/tasks/1
+  body: json
+  auth: none
+}

@@ -1,0 +1,20 @@
+meta {
+  name: store task
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{url}}/tasks
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "title",
+    "description": "lorem ipsum",
+    "due_date": "15/5/2025",
+    "status": "pending"
+  }
+}
