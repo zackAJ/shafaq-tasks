@@ -1,0 +1,26 @@
+meta {
+  name: csrf
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{url}}/sanctum/csrf-cookie
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+script:post-response {
+  const setCookieHeader = res.headers.get('set-cookie')[0];
+  
+  const xsrfTokenMatch  = setCookieHeader.match(/XSRF-TOKEN=([^;]+)/);
+  
+  const xsrfToken = decodeURIComponent(xsrfTokenMatch[1]);
+  
+  bru.setEnvVar('X-XSRF-TOKEN',xsrfToken);
+}

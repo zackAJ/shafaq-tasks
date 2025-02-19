@@ -1,26 +1,25 @@
 meta {
-  name: list tasks
+  name: get user
   type: http
-  seq: 4
+  seq: 7
 }
 
 get {
-  url: {{v1}}/tasks
-  body: none
+  url: {{v1}}/me
+  body: json
   auth: bearer
-}
-
-query {
-  : 
 }
 
 headers {
   Accept: application/json
   Content-Type: application/json
   X-XSRF-TOKEN: {{X-XSRF-TOKEN}}
-  AUTH_TOKEN: {{AUTH_TOKEN}}
 }
 
 auth:bearer {
   token: {{AUTH_TOKEN}}
+}
+
+script:post-response {
+  //bru.setEnvVar('AUTH_TOKEN',undefined);
 }

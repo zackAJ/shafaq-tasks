@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrUpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Notifications\TaskCreatedNotification;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TaskController extends Controller
@@ -28,6 +29,8 @@ class TaskController extends Controller
             ->user()
             ->tasks()
             ->create($request->validated());
+
+        $task->user->notify(new TaskCreatedNotification($task));
 
         return new TaskResource($task);
     }

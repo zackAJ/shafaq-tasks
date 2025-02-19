@@ -5,7 +5,9 @@ namespace Tests\Feature\V1\Api;
 use App\Enums\TaskStatus;
 use App\Models\Task;
 use App\Models\User;
+use App\Notifications\TaskCreatedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Notification;
 use Tests\TestCase;
 
 class TaskApiTest extends TestCase
@@ -14,6 +16,7 @@ class TaskApiTest extends TestCase
 
     public function test_user_can_create_task()
     {
+        Notification::fake();
         $user = User::factory()->create();
 
         $data = [
@@ -28,7 +31,9 @@ class TaskApiTest extends TestCase
 
             ->assertCreated()
             ->assertJsonStructure(array_keys($data), $data);
+
         $this->assertDatabaseCount('tasks', 1);
+        Notification::assertSentTo($user, TaskCreatedNotification::class);
     }
 
     public function test_user_can_see_task()

@@ -15,3 +15,5 @@
 - change environment to local
 > [!TODO]
 > screenshot
+
+- before making you register or login make sure to call the `auth/csrf` request first

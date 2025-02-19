@@ -1,11 +1,11 @@
 meta {
-  name: update task
+  name: login
   type: http
   seq: 3
 }
 
-patch {
-  url: {{v1}}/tasks/1
+post {
+  url: {{url}}/api/login
   body: json
   auth: bearer
 }
@@ -22,9 +22,15 @@ auth:bearer {
 
 body:json {
   {
-    "title": "updated",
-    "description": "updated",
-    "due_date": "5/20/2025",
-    "status": "in_progress"
+    "email": "test@test.com",
+    "password": "testtest"
   }
+}
+
+script:post-response {
+  const token = res.body.token
+  
+  bru.setEnvVar('AUTH_TOKEN',token);
+  
+  
 }

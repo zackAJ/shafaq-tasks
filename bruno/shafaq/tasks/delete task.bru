@@ -5,7 +5,16 @@ meta {
 }
 
 delete {
-  url: {{url}}/tasks/1
+  url: {{v1}}/tasks/1
   body: json
-  auth: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{AUTH_TOKEN}}
 }

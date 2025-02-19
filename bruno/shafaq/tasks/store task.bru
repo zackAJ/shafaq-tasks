@@ -5,16 +5,26 @@ meta {
 }
 
 post {
-  url: {{url}}/tasks
+  url: {{v1}}/tasks
   body: json
-  auth: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  X-XSRF-TOKEN: {{X-XSRF-TOKEN}}
+}
+
+auth:bearer {
+  token: {{AUTH_TOKEN}}
 }
 
 body:json {
   {
     "title": "title",
     "description": "lorem ipsum",
-    "due_date": "15/5/2025",
+    "due_date": "5/5/2025",
     "status": "pending"
   }
 }
