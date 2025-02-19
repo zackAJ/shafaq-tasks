@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\Task;
 use App\Models\User;
 
-//FIX: not triggering for some reason
+// FIX: not triggering for some reason
 class TaskPolicy
 {
     /**

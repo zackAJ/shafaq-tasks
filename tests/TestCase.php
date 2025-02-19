@@ -14,7 +14,7 @@ abstract class TestCase extends BaseTestCase
     protected function apiCall(string $method, $uri, array $data = [], array $headers = [], $options = 0, string $version = 'v1'): TestResponse
     {
 
-        $args = array_slice(func_get_args(), 0, 5); //remove $version arg
+        $args = array_slice(func_get_args(), 0, 5); // remove $version arg
 
         if (Str::startsWith($uri, '/')) {
             $uri = Str::substr($uri, 1);

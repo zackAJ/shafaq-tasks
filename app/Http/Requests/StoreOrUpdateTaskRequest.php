@@ -10,7 +10,7 @@ class StoreOrUpdateTaskRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; //using policy for authorization
+        return true; // using policy for authorization
     }
 
     /**
@@ -22,7 +22,7 @@ class StoreOrUpdateTaskRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['required','nullable', 'string'],
+            'description' => ['required', 'nullable', 'string'],
             'status' => ['required', Rule::enum(TaskStatus::class)],
             'due_date' => ['required', 'date', 'after:now'],
         ];
