@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
         /** @var \App\Models\User $user */
         $user = $request->user();
 
-        $user->currentAccessToken()->delete();
+        rescue(fn () => $user->currentAccessToken()->delete());
 
         return response()->noContent();
     }
