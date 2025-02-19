@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\V1\Api;
+namespace Tests\Feature\Api\V1\Api;
 
 use App\Enums\TaskStatus;
 use App\Models\Task;
