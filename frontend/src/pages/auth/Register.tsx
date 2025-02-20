@@ -1,121 +1,92 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router';
+import { register } from '@/api/auth';
+import { RegisterForm, ValidationErrorBag } from '@/types/forms';
+import FormError from "@/components/common/FormError"
+import { useAuthStore } from '@/store/auth';
+import LoadingBtn from "@/components/common/LoadingBtn";
+import AuthWrapper from '@/components/auth/AuthWarpper';
 
-export default function Register() {
-    const { data, setData, post, processing, errors, reset } = useForm({
+const RegisterPage = () => {
+    const { setToken } = useAuthStore()
+    const [form, setForm] = useState<RegisterForm>({
         name: '',
         email: '',
         password: '',
-        password_confirmation: '',
+        password_confirmation: ''
     });
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
+    const [loading, setLoading] = useState(false)
 
-        post(route('register'), {
-            onFinish: () => reset('password', 'password_confirmation'),
-        });
+    const [errors, setErrors] = useState<ValidationErrorBag>({})
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        setLoading(true)
+        e.preventDefault();
+        await register(form, (bag) => setErrors({ ...bag }), setToken);
+        setLoading(false)
     };
 
     return (
-        <GuestLayout>
-            <Head title="Register" />
-
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
-
-                    <TextInput
+        <AuthWrapper title="Welcome">
+            <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                    <input
+                        type="text"
                         id="name"
-                        name="name"
-                        value={data.name}
-                        className="mt-1 block w-full"
-                        autoComplete="name"
-                        isFocused={true}
-                        onChange={(e) => setData('name', e.target.value)}
+                        value={form.name}
+                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                        onBlur={(e) => setForm({ ...form, name: e.target.value.trim() })}
                         required
                     />
-
-                    <InputError message={errors.name} className="mt-2" />
+                    <FormError errors={errors} name={"name"} />
                 </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
+                <div className="mb-4">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                    <input
                         type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        onChange={(e) => setData('email', e.target.value)}
+                        id="email"
+                        value={form.email}
+                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        onBlur={(e) => setForm({ ...form, email: e.target.value.trim() })}
                         required
                     />
-
-                    <InputError message={errors.email} className="mt-2" />
+                    <FormError errors={errors} name={"email"} />
                 </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
+                <div className="mb-6">
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+                    <input
+                        type="password"
                         id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData('password', e.target.value)}
+                        value={form.password}
+                        onChange={(e) => setForm({ ...form, password: e.target.value })}
+                        onBlur={(e) => setForm({ ...form, password: e.target.value.trim() })}
                         required
                     />
-
-                    <InputError message={errors.password} className="mt-2" />
                 </div>
 
-                <div className="mt-4">
-                    <InputLabel
-                        htmlFor="password_confirmation"
-                        value="Confirm Password"
-                    />
-
-                    <TextInput
+                <div className="mb-6">
+                    <label htmlFor="password_confirmation" className="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <input
+                        type="password"
                         id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) =>
-                            setData('password_confirmation', e.target.value)
-                        }
+                        value={form.password_confirmation}
+                        onChange={(e) => setForm({ ...form, password_confirmation: e.target.value })}
+                        onBlur={(e) => setForm({ ...form, password_confirmation: e.target.value.trim() })}
                         required
                     />
-
-                    <InputError
-                        message={errors.password_confirmation}
-                        className="mt-2"
-                    />
+                    <FormError errors={errors} name={"password"} />
                 </div>
-
-                <div className="mt-4 flex items-center justify-end">
-                    <Link
-                        href={route('login')}
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-                    >
-                        Already registered?
-                    </Link>
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Register
-                    </PrimaryButton>
-                </div>
+                <LoadingBtn loading={loading} type="submit" className="w-full bg-indigo-600 text-white rounded-md py-2 px-4 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-white">
+                    Register
+                </LoadingBtn>
             </form>
-        </GuestLayout>
+            <p className="mt-4 text-center text-sm">
+                Already have an account? <Link to="/login" className="text-indigo-600 hover:text-indigo-800">Login</Link>
+            </p>
+        </AuthWrapper>
     );
-}
+};
+
+export default RegisterPage;

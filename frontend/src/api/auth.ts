@@ -1,20 +1,51 @@
-import axios from "../lib/axios.ts"
-import { csrf } from "./csrf.ts"
-
+import apiCall from "@/lib/axios.ts"
+import { LoginForm, RegisterForm, ValidationErrorBag } from "@/types/forms"
 const prefix = "api"
 
-export const login = async (email: string, password: string) => {
-
-	const response = await axios.post(`${prefix}/login`, { email, password }, { withCredentials: true })
-	return response.data
+export async function login(form: LoginForm, setErrors: (bag: ValidationErrorBag) => void, setToken: (token: string) => void) {
+	return await apiCall<{ token: string }>(
+		{
+			method: "post",
+			url: `${prefix}/login`,
+			data: form,
+			onSuccess: (data) => {
+				setToken(data.token)
+				window.location.reload()
+			},
+			onFailure: (e) => {
+				if (e.response?.data?.errors) setErrors(e.response.data.errors)
+			}
+		}
+	)
 }
 
-export const register = async (name: string, email: string, password: string) => {
-	const response = await axios.post(`${prefix}/register`, { name, email, password }, { withCredentials: true })
-	return response.data
+export async function register(form: RegisterForm, setErrors: (bag: ValidationErrorBag) => void, setToken: (token: string) => void) {
+	return await apiCall<{ token: string }>(
+		{
+			method: "post",
+			url: `${prefix}/register`,
+			data: form,
+			onSuccess: (data) => {
+				setErrors({})
+				setToken(data.token)
+				window.location.reload()
+			},
+			onFailure: (e) => {
+				if (e.response?.data?.errors) setErrors(e.response.data.errors)
+			}
+		}
+	)
 }
 
-export const logout = async () => {
-	const response = await axios.post(`${prefix}/logout`, {}, { withCredentials: true })
-	return response.data
+export async function logout(deleteToken: () => void) {
+	return await apiCall(
+		{
+			method: "post",
+			url: `${prefix}/logout`,
+			onSuccess: () => {
+				deleteToken()
+				window.location.reload()
+			},
+		}
+	)
 }

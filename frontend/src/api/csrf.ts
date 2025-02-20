@@ -1,7 +1,8 @@
-import axios from "@/lib/axios"
+import apiCall from "@/lib/axios"
 
-export const csrf = async () => {
-	const response = await axios.get(`sanctum/csrf-cookie`)
-	return response.data
+export async function csrf() {
+	return await apiCall({
+		method: 'get',
+		url: `sanctum/csrf-cookie`,
+	})
 }
-
