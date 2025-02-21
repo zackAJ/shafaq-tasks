@@ -1,5 +1,6 @@
 import Loading from "@/assets/loading.svg"
-interface LoadingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+
+interface LoadingButtonProps extends React.HTMLProps<HTMLButtonElement> {
 	loading: boolean;
 }
 

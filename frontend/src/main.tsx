@@ -7,6 +7,9 @@ import AuthLayout from "@/layouts/authenticated"
 import LoginPage from "@/pages/auth/Login"
 import RegisterPage from "@/pages/auth/Register"
 import Dashboard from "@/pages/dashboard"
+import boot from "@/lib/boot"
+
+boot()
 
 const RedirectComponent = () => {
   return <Navigate to="/dashboard" />

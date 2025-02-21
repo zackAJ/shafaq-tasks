@@ -10,7 +10,7 @@ export async function login(form: LoginForm, setErrors: (bag: ValidationErrorBag
 			data: form,
 			onSuccess: (data) => {
 				setToken(data.token)
-				window.location.reload()
+				window.location.replace('/dashboard')
 			},
 			onFailure: (e) => {
 				if (e.response?.data?.errors) setErrors(e.response.data.errors)
@@ -28,7 +28,7 @@ export async function register(form: RegisterForm, setErrors: (bag: ValidationEr
 			onSuccess: (data) => {
 				setErrors({})
 				setToken(data.token)
-				window.location.reload()
+				window.location.replace('/dashboard')
 			},
 			onFailure: (e) => {
 				if (e.response?.data?.errors) setErrors(e.response.data.errors)
@@ -37,14 +37,14 @@ export async function register(form: RegisterForm, setErrors: (bag: ValidationEr
 	)
 }
 
-export async function logout(deleteToken: () => void) {
+export async function logout(clearLocalData: () => void) {
 	return await apiCall(
 		{
 			method: "post",
 			url: `${prefix}/logout`,
 			onSuccess: () => {
-				deleteToken()
-				window.location.reload()
+				clearLocalData()
+				window.location.replace('/login')
 			},
 		}
 	)
