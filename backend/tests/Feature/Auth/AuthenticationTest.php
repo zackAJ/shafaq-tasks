@@ -19,7 +19,7 @@ class AuthenticationTest extends TestCase
             'password' => 'password',
         ]);
 
-        $response->assertJsonStructure(['token']);
+        $response->assertJsonStructure(['data' => ['token']]);
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void

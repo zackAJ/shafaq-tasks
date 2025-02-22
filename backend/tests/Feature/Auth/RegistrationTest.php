@@ -18,6 +18,6 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'password',
         ]);
 
-        $response->assertJsonStructure(['token']);
+        $response->assertJsonStructure(['data' => ['token']]);
     }
 }
