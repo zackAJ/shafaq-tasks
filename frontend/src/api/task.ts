@@ -39,11 +39,11 @@ export async function updateTask(taskId: number, form: UpdateTaskFrom, setErrors
 	)
 }
 
-export async function getTasks() {
+export async function getTasks(pageNum: string) {
 	return await apiCall<PaginatedResponse<Task>>(
 		{
 			method: "get",
-			url: `${prefix}`,
+			url: `${prefix}?page=${pageNum}`,
 		}
 	)
 }

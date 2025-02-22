@@ -14,7 +14,7 @@ import {
 import { dateToLocaleDateString } from "@/lib/utils";
 import { Pagination } from "@/types/pagination";
 import { Eye, FilePenLine, Trash2 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import DeleteConfirmationPopup from "@/components/common/DeleteConfirmation";
 import PageLoader from "@/components/common/PageLoader";
 
@@ -23,6 +23,12 @@ const DashboardPage = () => {
 	const [pagination, setPagination] = useState<Pagination>(null)
 	const [loading, setLoading] = useState(false)
 	const [deletePopup, setDeletePopup] = useState({ id: null, toggle: false })
+	const [searchParams, setSearchParams] = useSearchParams()
+
+
+	function setPage(num: number) {
+		setSearchParams({ page: num.toString() })
+	}
 
 	const columns = [
 		{
@@ -52,10 +58,18 @@ const DashboardPage = () => {
 	];
 
 	async function asyncFetch() {
-		const { data, error, links, meta } = await getTasks()
+		let pageNum = searchParams.get('page')
+		if (!pageNum) {
+			setPage(1)
+			pageNum = '1'
+			return
+		}
+
+		const { data, error, links, meta } = await getTasks(pageNum)
 		if (error) return
 		setTasks(data.data)
 		setPagination({ links, meta })
+
 	}
 
 	async function handleTaskDeletion() {
@@ -75,7 +89,7 @@ const DashboardPage = () => {
 
 	useEffect(() => {
 		asyncFetch()
-	}, [])
+	}, [searchParams])
 
 	if (loading) return <PageLoader />
 
@@ -84,10 +98,9 @@ const DashboardPage = () => {
 			<h1 className="text-xl font-bold">Dashboard</h1>
 
 			<Table>
-				<TableCaption>Your tasks</TableCaption>
 				<TableHeader>
 					<TableRow>
-						{columns.map(col => <TableHead key={col.value} className={'first-letter:capitalize !w-[600px]' + col.className}>{col.label}</TableHead>)}
+						{columns.map(col => <TableHead key={col.value} className={'first-letter:capitalize !w-[600px] ' + col.className}>{col.label}</TableHead>)}
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -111,7 +124,7 @@ const DashboardPage = () => {
 					})}
 				</TableBody>
 			</Table>
-			<Paginator pagination={pagination} />
+			<Paginator setPage={setPage} pagination={pagination} />
 
 			<DeleteConfirmationPopup open={deletePopup.toggle} onConfirm={handleTaskDeletion} onClose={clearDeletePopup} />
 		</main>
