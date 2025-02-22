@@ -1,5 +1,8 @@
+import { deleteTask } from "@/api/task";
 import LinkBack from "@/components/common/BackLink";
+import DeleteConfirmationPopup from "@/components/common/DeleteConfirmation";
 import LoadingBtn from "@/components/common/LoadingBtn";
+import PageLoader from "@/components/common/PageLoader";
 import { dateToLocaleDateString } from "@/lib/utils";
 import { Task } from "@/types/models";
 import { useState } from "react";
@@ -13,12 +16,27 @@ export default function ShowTask({ task }: Props) {
 	const navigate = useNavigate()
 	const [loading, setLoading] = useState(false)
 
+	const [deletePopup, setDeletePopup] = useState({ toggle: false })
+
+	async function handleTaskDeletion() {
+		if (!task?.id) return console.error('no id')
+		setLoading(true)
+		const { error } = await deleteTask(task.id)
+		setLoading(false)
+
+		if (error) return
+
+		navigate('/dashboard')
+	}
+
+	if (loading) return <PageLoader />
+
 	return (
 		<main className='w-full'>
 			<div className='flex gap-x-4 items-center mb-4'>
 				<LinkBack />
 				<h1 className="text-xl font-bold">
-					Show task
+					Task {task.id}
 				</h1>
 			</div>
 			<section className="bg-white p-4 rounded-lg">
@@ -46,10 +64,12 @@ export default function ShowTask({ task }: Props) {
 					Edit
 				</button>
 
-				<LoadingBtn onClick={() => console.log('todo')} loading={loading} type="button" className="w-[100px] bg-red-400 text-white rounded-md py-2 px-4 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-white mx-2">
+				<button onClick={() => setDeletePopup({ toggle: true })} type="button" className="w-[100px] bg-red-400 text-white rounded-md py-2 px-4 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-white mx-2">
 					Delete
-				</LoadingBtn>
+				</button>
 			</section>
+
+			<DeleteConfirmationPopup open={deletePopup.toggle} onConfirm={handleTaskDeletion} onClose={() => setDeletePopup({ toggle: false })} />
 		</main>
 	)
 };

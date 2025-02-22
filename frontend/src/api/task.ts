@@ -56,3 +56,12 @@ export async function getTask(id: number) {
 		}
 	)
 }
+
+export async function deleteTask(id: number) {
+	return await apiCall<NormalResponse<null>>(
+		{
+			method: "delete",
+			url: `${prefix}/${id}`,
+		}
+	)
+}

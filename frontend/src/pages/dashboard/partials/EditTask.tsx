@@ -5,22 +5,21 @@ import Dropdown, { DropdownProps } from "@/components/common/Dropdown";
 import FormError from "@/components/common/FormError";
 import LoadingBtn from "@/components/common/LoadingBtn";
 import { statusEnum } from "@/consts/task";
-import { CreateTaskForm, ValidationErrorBag } from "@/types/forms";
+import { CreateTaskForm, UpdateTaskFrom, ValidationErrorBag } from "@/types/forms";
 import { Task } from "@/types/models";
-import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 interface Props {
 	task: Task
 }
 
+
 export default function EditTask({ task }: Props) {
-	const navigate = useNavigate()
 	const taskId = Number(useParams().taskId)
 	const [errors, setErrors] = useState<ValidationErrorBag>({})
 	const [loading, setLoading] = useState(false)
-	const [form, setForm] = useState<CreateTaskForm>({
+	const [form, setForm] = useState<UpdateTaskFrom>({
 		title: task.title,
 		description: task.description ?? '',
 		status: task.status,
@@ -45,7 +44,7 @@ export default function EditTask({ task }: Props) {
 			<div className='flex gap-x-4 items-center mb-4'>
 				<LinkBack />
 				<h1 className="text-xl font-bold">
-					Edit task
+					Edit task {task.id}
 				</h1>
 			</div>
 			<form onSubmit={handleSubmit} className="bg-white p-4 rounded-lg">
