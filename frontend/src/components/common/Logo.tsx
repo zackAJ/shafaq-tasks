@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { ReactNode } from "react";
 import logo from '@/assets/logo.svg'
 
 interface Props extends React.HTMLProps<HTMLImageElement> {
@@ -8,7 +8,6 @@ interface Props extends React.HTMLProps<HTMLImageElement> {
 export default function Logo({
 	className,
 	...props
-}: Props): FC {
-	return <img src={logo} alt="logo" className={className ??= "mx-auto h-[80px]"
-	} />
+}: Props): ReactNode {
+	return <img src={logo} alt="logo" className={className ??= "mx-auto h-[80px]"} {...props} />
 }

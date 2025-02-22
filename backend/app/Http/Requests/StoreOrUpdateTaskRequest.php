@@ -22,7 +22,7 @@ class StoreOrUpdateTaskRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'nullable', 'string'],
+            'description' => ['nullable', 'string'],
             'status' => ['required', Rule::enum(TaskStatus::class)],
             'due_date' => ['required', 'date', 'after:now'],
         ];

@@ -1,0 +1,38 @@
+import apiCall from "@/lib/axios"
+import { NormalResponse, PaginatedResponse } from "@/types/api"
+import { CreateTaskForm, ValidationErrorBag } from "@/types/forms"
+import { Task } from "@/types/models"
+
+const prefix = 'api/v1/tasks'
+
+export async function createTask(form: CreateTaskForm, setErrors: (bag: ValidationErrorBag) => void) {
+	return await apiCall<NormalResponse<Task>>(
+		{
+			method: "post",
+			url: `${prefix}`,
+			data: form,
+			onFailure: (e) => {
+				if (e.response?.data?.errors) setErrors(e.response.data.errors)
+			}
+
+		}
+	)
+}
+
+export async function getTasks() {
+	return await apiCall<PaginatedResponse<Task>>(
+		{
+			method: "get",
+			url: `${prefix}`,
+		}
+	)
+}
+
+export async function getTask(id: number) {
+	return await apiCall<NormalResponse<Task>>(
+		{
+			method: "get",
+			url: `${prefix}/${id}`,
+		}
+	)
+}

@@ -8,6 +8,7 @@ import LoginPage from "@/pages/auth/Login"
 import RegisterPage from "@/pages/auth/Register"
 import Dashboard from "@/pages/dashboard"
 import boot from "@/lib/boot"
+import CreateTaskPage from './pages/dashboard/Create'
 
 boot()
 
@@ -29,7 +30,10 @@ createRoot(document.getElementById('root')!).render(
         </Route>
 
         <Route element={<AuthLayout />}>
-          <Route path='dashboard' element={<Dashboard />} />
+          <Route path='dashboard'>
+            <Route index element={<Dashboard />} />
+            <Route path='create' element={<CreateTaskPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

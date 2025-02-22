@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import { csrf } from '../api/csrf';
-import type { ApiCallOptions, ApiError, ApiResponse } from "@/types/api";
+import type { ApiCallOptions, ApiError, ApiResponse, NormalResponse } from "@/types/api";
 import { useAuthStore } from '../store/auth';
 import { useUserStore } from '../store/user';
 
@@ -39,7 +39,6 @@ axios.interceptors.response.use(
 		if (error.status === 401) {
 			userStore.clear()
 			authStore.clear()
-			// await uiStore().notify({ message: "You've been logged out", duration: 2000, type: 'error' })
 			window.location.replace('/login')
 		}
 		//not found
@@ -49,7 +48,6 @@ axios.interceptors.response.use(
 
 		//forbidden
 		else if (error.status === 403) {
-			// uiStore().notify({ message: "Action not allowed", duration: 2000, type: 'error' })
 		}
 
 		// get csrf cookie if expired and then retry
@@ -60,7 +58,6 @@ axios.interceptors.response.use(
 
 		//fallback error
 		else {
-			// uiStore().notify({ message: "Something went wrong", duration: 2000, type: 'error' })
 		}
 
 		return Promise.reject(error)
@@ -75,11 +72,10 @@ export const apiCall = async <T>(
 	options: ApiCallOptions<T>
 ): Promise<ApiResponse<T> | ApiError> => {
 	const { method, url, params, data, withLoading = false, onFailure: onCatch, onSuccess, onFinally } = options;
-	//TODO: start loading
 	try {
 		const response = await axios({ method, url, params, data });
 		if (onSuccess) onSuccess(response.data, response.status)
-		return { data: response.data, status: response.status, error: undefined };
+		return { data: response.data, status: response.status, error: undefined, meta: response.data?.meta, links: response.data?.links };
 
 	} catch (e: any) {
 		console.error(e)
@@ -88,7 +84,6 @@ export const apiCall = async <T>(
 
 	} finally {
 		if (onFinally) onFinally()
-		//TODO: stop loading
 	}
 }
 

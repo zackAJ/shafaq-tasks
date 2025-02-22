@@ -18,4 +18,7 @@ export default defineConfig({
       "@": root,
     } as AliasOptions,
   },
+  optimizeDeps: {
+    exclude: ['js-big-decimal']
+  }
 })

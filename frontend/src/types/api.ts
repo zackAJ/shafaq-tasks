@@ -4,13 +4,17 @@ export type PaginatedResponse<T> = {
   data: T[];
   links: PaginationLinks;
   meta: PaginationMeta;
+  status: number;
+  error: undefined;
 }
 
-export type ApiResponse<T> = {
+export type NormalResponse<T> = {
   data: T;
   status: number;
   error: undefined;
 }
+
+export type ApiResponse<T> = NormalResponse<T> | PaginatedResponse<T>
 
 export type ApiError = {
   data: undefined;

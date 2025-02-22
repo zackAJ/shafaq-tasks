@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { User } from '@/types/user.ts'
+import { User } from '@/types/models.ts'
 
 export type State = { user: User | null }
 export type Action = {

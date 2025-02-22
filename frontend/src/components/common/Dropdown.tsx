@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
-interface DropdownProps {
+export interface DropdownProps {
   options: string[];
   defaultOption?: string;
   onSelect?: ({ option, setSelectedOption, setIsOpen }: {
@@ -42,7 +42,7 @@ export default function Dropdown({
           onClick={() => setIsOpen(!isOpen)}
         >
           <span className="block truncate">
-            {defaultOption || selectedOption || placeholder}
+            {selectedOption || placeholder}
           </span>
           <ChevronDown
             className={`ml-2 h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''

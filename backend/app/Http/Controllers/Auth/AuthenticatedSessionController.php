@@ -18,7 +18,11 @@ class AuthenticatedSessionController extends Controller
 
         $token = $user->createToken(time().$user->id)->plainTextToken;
 
-        return response()->json(['token' => $token]);
+        return response()->json([
+            'data' => [
+                'token' => $token,
+            ],
+        ]);
     }
 
     /**

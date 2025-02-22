@@ -2,31 +2,40 @@ import { useAuthStore } from '@/store/auth';
 import { useUserStore } from '@/store/user';
 import { Navigate, Outlet } from 'react-router';
 import Header from './partials/Header.tsx';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { getUser } from '@/api/user.ts';
+import PageLoader from '@/components/common/PageLoader.tsx';
 
 const AuthLayout = () => {
 
   const authStore = useAuthStore()
   const userStore = useUserStore()
 
+  const [loading, setLoading] = useState(true)
+
+  async function asyncFetch() {
+    const { data, error } = await getUser()
+    if (!error) userStore.setUser(data.data)
+
+    setLoading(false)
+  }
+
   useEffect(() => {
-
-    if (!authStore.isAuthenticated()) {
-      authStore.clear()
-      userStore.clear()
-    }
-
+    asyncFetch()
   }, [])
 
-  return (
-    <div className='w-full min-h-screen bg-purple-50 '>
-      <Header className="flex justify-between w-full px-8 py-4 border-b border-gray-200 text-white" />
-      <div className="grid place-items-center p-8">
-        {!authStore.isAuthenticated() && <Navigate to='/login' />}
-        <Outlet />
-      </div>
-    </div>
-  )
+  return loading ?
+    (< PageLoader />) :
+    (
+      <div className='w-full min-h-screen bg-purple-50 '>
+        <Header className="flex justify-between w-full px-8 py-4 border-b border-gray-200 text-white" />
+        < div className="grid place-items-center p-8" >
+          {!authStore.isAuthenticated() && <Navigate to='/login' />
+          }
+          <Outlet />
+        </div >
+      </div >
+    )
 };
 
 export default AuthLayout;

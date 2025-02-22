@@ -1,15 +1,17 @@
 import apiCall from "@/lib/axios.ts"
+import { NormalResponse } from "@/types/api"
 import { LoginForm, RegisterForm, ValidationErrorBag } from "@/types/forms"
 const prefix = "api"
 
 export async function login(form: LoginForm, setErrors: (bag: ValidationErrorBag) => void, setToken: (token: string) => void) {
-	return await apiCall<{ token: string }>(
+	return await apiCall<NormalResponse<{ token: string }>>(
 		{
 			method: "post",
 			url: `${prefix}/login`,
 			data: form,
 			onSuccess: (data) => {
-				setToken(data.token)
+				console.log('foo: ', data.data.token)
+				setToken(data.data.token)
 				window.location.replace('/dashboard')
 			},
 			onFailure: (e) => {
@@ -20,14 +22,14 @@ export async function login(form: LoginForm, setErrors: (bag: ValidationErrorBag
 }
 
 export async function register(form: RegisterForm, setErrors: (bag: ValidationErrorBag) => void, setToken: (token: string) => void) {
-	return await apiCall<{ token: string }>(
+	return await apiCall<NormalResponse<{ token: string }>>(
 		{
 			method: "post",
 			url: `${prefix}/register`,
 			data: form,
 			onSuccess: (data) => {
 				setErrors({})
-				setToken(data.token)
+				setToken(data.data.token)
 				window.location.replace('/dashboard')
 			},
 			onFailure: (e) => {

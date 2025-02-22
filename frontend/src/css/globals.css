@@ -16,7 +16,8 @@
   --primary: var(--color-indigo-600);
 }
 
-input {
+input,
+textarea {
   padding: 6px;
   margin-top: 0.25rem;
   display: block;

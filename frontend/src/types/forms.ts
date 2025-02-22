@@ -1,7 +1,9 @@
+import { status } from "./models";
+
 export type ValidationErrorBag =
-{
-  [key: string]: string[]
-}
+  {
+    [key: string]: string[]
+  }
 
 export type LoginForm = {
   email: string;
@@ -18,6 +20,6 @@ export type RegisterForm = {
 export type CreateTaskForm = {
   title: string;
   description: string | null;
-  due_date: string;
-  status: string;
+  due_date: Date;
+  status: status;
 }
