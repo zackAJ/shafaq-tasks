@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '@/css/globals.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
@@ -8,9 +7,8 @@ import LoginPage from "@/pages/auth/Login"
 import RegisterPage from "@/pages/auth/Register"
 import Dashboard from "@/pages/dashboard"
 import boot from "@/lib/boot"
-import CreateTaskPage from './pages/dashboard/Create'
-import ShowTaskPage from './pages/dashboard/Show'
-import EditTaskPage from './pages/dashboard/Edit'
+import CreateTaskPage from './pages/dashboard/CreateTaskPage'
+import TaskPage from './pages/dashboard/TaskPage'
 
 boot()
 
@@ -34,8 +32,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path='dashboard'>
           <Route index element={<Dashboard />} />
           <Route path='create' element={<CreateTaskPage />} />
-          <Route path=':taskId' element={<ShowTaskPage />} />
-          <Route path=':taskId/edit' element={<EditTaskPage />} />
+          <Route path=':taskId/:verb?' element={<TaskPage />} />
         </Route>
       </Route>
     </Routes>
