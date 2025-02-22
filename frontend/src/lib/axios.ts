@@ -70,7 +70,7 @@ axios.interceptors.response.use(
  */
 export const apiCall = async <T>(
 	options: ApiCallOptions<T>
-): Promise<ApiResponse<T> | ApiError> => {
+): Promise<T | ApiError> => {
 	const { method, url, params, data, withLoading = false, onFailure: onCatch, onSuccess, onFinally } = options;
 	try {
 		const response = await axios({ method, url, params, data });

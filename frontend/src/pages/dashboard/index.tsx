@@ -13,6 +13,8 @@ import {
 } from "@/components/shadcn/Table"
 import { dateToLocaleDateString } from "@/lib/utils";
 import { Pagination } from "@/types/pagination";
+import { Eye, FilePenLine, Trash2 } from "lucide-react";
+import { Link } from "react-router";
 
 const DashboardPage = () => {
 	const [tasks, setTasks] = useState<Task[]>([])
@@ -46,10 +48,10 @@ const DashboardPage = () => {
 	];
 
 	async function asyncFatch() {
-		const { data, error } = await getTasks()
+		const { data, error, links, meta } = await getTasks()
 		if (error) return
 		setTasks(data.data)
-		setPagination({ links: data.links, meta: data.meta })
+		setPagination({ links, meta })
 	}
 
 	useEffect(() => {
@@ -74,7 +76,11 @@ const DashboardPage = () => {
 								{
 									columns.map(col =>
 										col.value === 'action' ?
-											<TableCell key={col.value + task.id} >Action</TableCell> :
+											<TableCell className="flex gap-x-2" key={col.value + task.id} >
+												<Link to={`/dashboard/${task.id}`}><Eye /></Link>
+												<Link to={`/dashboard/${task.id}/edit`}><FilePenLine /></Link>
+												<button><Trash2 className="text-red-500" /></button>
+											</TableCell> :
 											<TableCell key={col.value + task.id}>{col.format(task[col.value])}</TableCell>
 									)
 								}

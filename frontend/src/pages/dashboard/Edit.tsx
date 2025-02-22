@@ -1,15 +1,19 @@
-import { createTask } from "@/api/task";
+import { createTask, getTask, updateTask } from "@/api/task";
 import { DatePicker } from "@/components/common/DatePicker";
 import Dropdown, { DropdownProps } from "@/components/common/Dropdown";
 import FormError from "@/components/common/FormError";
 import LoadingBtn from "@/components/common/LoadingBtn";
 import { statusEnum } from "@/consts/task";
 import { CreateTaskForm, ValidationErrorBag } from "@/types/forms";
-import { useState } from "react";
+import { Task } from "@/types/models";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 
-const CreateTaskPage = () => {
+const EditTaskPage = () => {
+	const taskId = Number(useParams().taskId)
 	const [errors, setErrors] = useState<ValidationErrorBag>({})
 	const [loading, setLoading] = useState(false)
+	const [task, setTask] = useState<Task | null>(null)
 	const [form, setForm] = useState<CreateTaskForm>({
 		title: '',
 		description: '',
@@ -20,14 +24,36 @@ const CreateTaskPage = () => {
 	const selectStatus: DropdownProps['onSelect'] = ({ option, setSelectedOption, setIsOpen }) => {
 		setSelectedOption(option)
 		setIsOpen(false)
+		setForm({ ...form, status: option })
 	}
 
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
 		setLoading(true)
-		await createTask(form, setErrors);
+		await updateTask(taskId, form, setErrors);
 		setLoading(false)
 	};
+
+	async function effect() {
+		setLoading(true)
+		const { data, error } = await getTask(taskId)
+		setLoading(false)
+
+		if (error) return
+
+		setTask(data.data)
+
+		setForm({
+			title: data.data?.title ?? 'hi',
+			description: data.data?.description ?? '',
+			status: data.data?.status ?? 'pending',
+			due_date: new Date(data.data?.due_date),
+		})
+	}
+
+	useEffect(() => {
+		effect()
+	}, [])
 
 	return (
 		<main className='w-full'>
@@ -84,4 +110,4 @@ const CreateTaskPage = () => {
 	)
 };
 
-export default CreateTaskPage;
+export default EditTaskPage;

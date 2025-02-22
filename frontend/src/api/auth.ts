@@ -10,7 +10,6 @@ export async function login(form: LoginForm, setErrors: (bag: ValidationErrorBag
 			url: `${prefix}/login`,
 			data: form,
 			onSuccess: (data) => {
-				console.log('foo: ', data.data.token)
 				setToken(data.data.token)
 				window.location.replace('/dashboard')
 			},

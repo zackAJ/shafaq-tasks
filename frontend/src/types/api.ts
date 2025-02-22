@@ -1,7 +1,9 @@
 import type { PaginationLinks, PaginationMeta } from "./pagination"
 
 export type PaginatedResponse<T> = {
-  data: T[];
+  data: { 
+    data: T[]
+  };
   links: PaginationLinks;
   meta: PaginationMeta;
   status: number;
@@ -9,17 +11,19 @@ export type PaginatedResponse<T> = {
 }
 
 export type NormalResponse<T> = {
-  data: T;
+  data: { data: T };
   status: number;
   error: undefined;
 }
 
-export type ApiResponse<T> = NormalResponse<T> | PaginatedResponse<T>
+export type ApiResponse<T> = T
 
 export type ApiError = {
   data: undefined;
   status: number;
   error: Error;
+  links: undefined;
+  meta: undefined;
 }
 
 export type ApiCallOptions<T> = {

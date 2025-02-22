@@ -20,6 +20,8 @@ export type RegisterForm = {
 export type CreateTaskForm = {
   title: string;
   description: string | null;
-  due_date: Date;
+  due_date: Date | string;
   status: status;
 }
+
+export type UpdateTaskFrom = CreateTaskForm

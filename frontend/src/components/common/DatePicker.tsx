@@ -8,14 +8,13 @@ import Popup from "./Popup";
 export function DatePicker(props: DayPickerProps & PropsSingle): ReactNode {
   const firstRender = useRef(true);
   useEffect(() => {
-    console.log(firstRender.current)
     if (firstRender.current) {
       firstRender.current = false
       return
     }
 
     setIsOpen(!isOpen)
-  }, [props.selected])
+  }, [])
 
   function Dp(): ReactNode {
     return <DayPicker {...props} />

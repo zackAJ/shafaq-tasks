@@ -8,12 +8,6 @@ const options = ["Logout"]
 
 type OnClickType = ComponentProps<typeof Dropdown>["onSelect"];
 
-function Placeholder() {
-	return (<div className="flex gap-2 items-center">
-		<img src={Avatar} className="rounded-full w-[20px]" />
-		<span>zakaria</span>
-	</div>)
-}
 
 
 export default function ProfileDropdown() {
@@ -33,5 +27,13 @@ export default function ProfileDropdown() {
 
 		utils.setIsOpen(false)
 	}
+
+	function Placeholder() {
+		return (<div className="flex gap-2 items-center">
+			<img src={Avatar} className="rounded-full w-[20px]" />
+			<span>{userStore.user?.name}</span>
+		</div>)
+	}
+
 	return <Dropdown options={options} placeholder={<Placeholder />} onSelect={onClick} />
 }

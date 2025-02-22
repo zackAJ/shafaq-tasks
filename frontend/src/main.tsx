@@ -9,6 +9,8 @@ import RegisterPage from "@/pages/auth/Register"
 import Dashboard from "@/pages/dashboard"
 import boot from "@/lib/boot"
 import CreateTaskPage from './pages/dashboard/Create'
+import ShowTaskPage from './pages/dashboard/Show'
+import EditTaskPage from './pages/dashboard/Edit'
 
 boot()
 
@@ -17,25 +19,25 @@ const RedirectComponent = () => {
 }
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <Routes>
+  <BrowserRouter>
+    <Routes>
 
-        <Route path='/' element={<RedirectComponent />}>
-        </Route>
+      <Route path='/' element={<RedirectComponent />}>
+      </Route>
 
-        <Route element={<GuestLayout />}>
-          <Route path='login' element={<LoginPage />} />
-          <Route path='register' element={<RegisterPage />} />
-        </Route>
+      <Route element={<GuestLayout />}>
+        <Route path='login' element={<LoginPage />} />
+        <Route path='register' element={<RegisterPage />} />
+      </Route>
 
-        <Route element={<AuthLayout />}>
-          <Route path='dashboard'>
-            <Route index element={<Dashboard />} />
-            <Route path='create' element={<CreateTaskPage />} />
-          </Route>
+      <Route element={<AuthLayout />}>
+        <Route path='dashboard'>
+          <Route index element={<Dashboard />} />
+          <Route path='create' element={<CreateTaskPage />} />
+          <Route path=':taskId' element={<ShowTaskPage />} />
+          <Route path=':taskId/edit' element={<EditTaskPage />} />
         </Route>
-      </Routes>
-    </BrowserRouter>
-  </StrictMode>
+      </Route>
+    </Routes>
+  </BrowserRouter>
 )

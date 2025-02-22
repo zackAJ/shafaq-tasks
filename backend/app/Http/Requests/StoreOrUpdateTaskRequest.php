@@ -24,7 +24,7 @@ class StoreOrUpdateTaskRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'status' => ['required', Rule::enum(TaskStatus::class)],
-            'due_date' => ['required', 'date', 'after:now'],
+            'due_date' => ['required', 'date', Rule::date()->afterOrEqual(today())],
         ];
     }
 }

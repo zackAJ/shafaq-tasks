@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 export interface DropdownProps {
@@ -32,6 +32,10 @@ export default function Dropdown({
       setIsOpen,
     });
   };
+
+  useEffect(() => {
+    setSelectedOption(defaultOption)
+  }, [defaultOption])
 
   return (
     <div className={`relative inline-block text-left my-auto ${className}`}>
