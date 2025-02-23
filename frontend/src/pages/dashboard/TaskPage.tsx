@@ -26,7 +26,7 @@ export default function TaskPage() {
 
 	if (loading || !task) return <PageLoader />
 
-	return (
+	if (task) return (
 		verb === 'edit' ? <EditTask task={task} /> : <ShowTask task={task} />
 	)
 };
