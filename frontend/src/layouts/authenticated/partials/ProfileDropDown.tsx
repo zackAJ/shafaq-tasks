@@ -1,9 +1,10 @@
-import { ComponentProps } from "react";
+import { ComponentProps, useState } from "react";
 import Dropdown from "@/components/common/Dropdown";
 import Avatar from "@/assets/avatar.svg";
 import { logout } from "@/api/auth";
 import { useAuthStore } from "@/store/auth";
 import { useUserStore } from "@/store/user";
+import PageLoader from "@/components/common/PageLoader";
 const options = ["Logout"]
 
 type OnClickType = ComponentProps<typeof Dropdown>["onSelect"];
@@ -12,15 +13,19 @@ type OnClickType = ComponentProps<typeof Dropdown>["onSelect"];
 
 export default function ProfileDropdown() {
 	const [authStore, userStore] = [useAuthStore(), useUserStore()]
+	const [loading, setLoading] = useState(false)
+
 	const onClick: OnClickType = async (utils) => {
 		switch (utils.option) {
 			case 'Logout':
+				setLoading(true)
 				await logout(
 					() => {
 						authStore.clear()
 						userStore.clear()
 					}
 				)
+				setLoading(false)
 				break;
 		}
 
@@ -34,6 +39,8 @@ export default function ProfileDropdown() {
 			<span>{userStore.user?.name}</span>
 		</div>)
 	}
+
+	if (loading) return <PageLoader />
 
 	return <Dropdown options={options} placeholder={<Placeholder />} onSelect={onClick} />
 }
