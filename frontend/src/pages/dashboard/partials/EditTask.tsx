@@ -13,11 +13,12 @@ import { useState } from "react";
 import { useParams } from "react-router";
 
 interface Props {
-	task: Task
+	task: Task,
+	setTask: (task: Task) => void
 }
 
 
-export default function EditTask({ task }: Props) {
+export default function EditTask({ task, setTask }: Props) {
 	const taskId = Number(useParams().taskId)
 	const [errors, setErrors] = useState<ValidationErrorBag>({})
 	const [loading, setLoading] = useState(false)
@@ -37,7 +38,8 @@ export default function EditTask({ task }: Props) {
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
 		setLoading(true)
-		await updateTask(taskId, form, setErrors);
+		const { error } = await updateTask(taskId, form, setErrors);
+		if (!error) setTask({ ...task, ...form})
 		setLoading(false)
 	};
 

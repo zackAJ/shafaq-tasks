@@ -13,7 +13,7 @@ export function DatePicker(props: DayPickerProps & PropsSingle): ReactNode {
       return
     }
 
-    setIsOpen(!isOpen)
+    setIsOpen(false)
   }, [props.selected])
 
 

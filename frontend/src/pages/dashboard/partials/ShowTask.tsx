@@ -51,7 +51,7 @@ export default function ShowTask({ task }: Props) {
 
 				<div className="mb-4">
 					<p className="block text-sm font-medium text-gray-700 mb-2">Status</p>
-					<p>{task?.status}</p>
+					<p>{task?.status.replace('_',' ')}</p>
 				</div>
 
 				<div className="mb-4">
