@@ -5,7 +5,6 @@ namespace App\Policies;
 use App\Models\Task;
 use App\Models\User;
 
-// FIX: not triggering for some reason
 class TaskPolicy
 {
     /**
@@ -13,7 +12,7 @@ class TaskPolicy
      */
     public function viewAny(): bool
     {
-        return false;
+        return true;
     }
 
     /**

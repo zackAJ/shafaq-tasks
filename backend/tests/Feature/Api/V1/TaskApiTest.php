@@ -116,27 +116,26 @@ class TaskApiTest extends TestCase
             ->assertUnauthorized();
     }
 
-    // FIX: Policy not triggering
-    // public function test_user_cant_see_others_tasks()
-    // {
-    //     $users = User::factory(2)->create();
-    //
-    //     Task::factory()->create(['user_id' => $users[1]]);
-    //
-    //     $this->actingAs($users[0])
-    //         ->apiCall('GET', 'tasks')
-    //         ->assertJsonCount(0, 'data');
-    //
-    //     $this
-    //         ->apiCall('DELETE', 'tasks/1')
-    //         ->assertUnauthorized();
-    //
-    //     $this
-    //         ->apiCall('GET', 'tasks/1')
-    //         ->assertUnauthorized();
-    //
-    //     $this
-    //         ->apiCall('PATCH', 'tasks/1')
-    //         ->assertUnauthorized();
-    // }
+    public function test_user_cant_see_others_tasks()
+    {
+        $users = User::factory(2)->create();
+
+        Task::factory()->create(['user_id' => $users[1]]);
+
+        $this->actingAs($users[0])
+            ->apiCall('GET', 'tasks')
+            ->assertJsonCount(0, 'data');
+
+        $this
+            ->apiCall('DELETE', 'tasks/1')
+            ->assertForbidden();
+
+        $this
+            ->apiCall('GET', 'tasks/1')
+            ->assertForbidden();
+
+        $this
+            ->apiCall('PATCH', 'tasks/1')
+            ->assertForbidden();
+    }
 }
