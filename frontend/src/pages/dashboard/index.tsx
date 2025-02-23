@@ -52,7 +52,7 @@ const DashboardPage = () => {
 		{
 			label: 'Action',
 			value: 'action',
-			className: 'font-bold font-medium max-w-[300px]',
+			className: 'font-bold font-bold max-w-[300px]',
 			format: (value: string) => value
 		}
 	];
