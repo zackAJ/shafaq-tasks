@@ -19,7 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
             ]);
 
-        //NOTE: for demo only, because I don't have ability to set cookies under vercel domain
+        // NOTE: for demo only, because I don't have ability to set cookies under vercel domain
         $middleware->validateCsrfTokens(except: ['*']);
 
         //
