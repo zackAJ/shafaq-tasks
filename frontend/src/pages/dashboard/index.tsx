@@ -12,10 +12,22 @@ import {
 } from "@/components/shadcn/Table"
 import { cn, dateToLocaleDateString } from "@/lib/utils";
 import { Pagination } from "@/types/pagination";
-import { Eye, FilePenLine, Trash2 } from "lucide-react";
+import { CirclePlus, Eye, FilePenLine, Trash2 } from "lucide-react";
 import { Link, useSearchParams } from "react-router";
 import DeleteConfirmationPopup from "@/components/common/DeleteConfirmation";
 import PageLoader from "@/components/common/PageLoader";
+import EmptyState from "@/components/common/EmptyState";
+
+const CreateTaskButton = () => {
+	return (
+
+		<Link to='/dashboard/create' className="flex gap-x-2 bg-[var(--primary)] rounded-md py-2 px-4 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-white
+			">
+			<CirclePlus />
+			<span>New Task</span>
+		</Link>
+	)
+}
 
 const DashboardPage = () => {
 	const [tasks, setTasks] = useState<Task[]>([])
@@ -33,13 +45,13 @@ const DashboardPage = () => {
 		{
 			label: 'Title',
 			value: 'title',
-			className: 'truncate max-w-[200px] sm:max-w-[500px]',
+			className: 'truncate w-full max-w-[200px] sm:max-w-[500px]',
 			format: (value: string) => value
 		},
 		{
 			label: 'Due Date',
 			value: 'due_date',
-			className: 'hidden sm:block',
+			className: 'hidden sm:block w-[150px]',
 			format: (value: string) => dateToLocaleDateString(value)
 		},
 		{
@@ -92,16 +104,26 @@ const DashboardPage = () => {
 
 	if (loading) return <PageLoader />
 
+	if (tasks.length === 0) return (
+		<EmptyState>
+			<CreateTaskButton />
+		</EmptyState>
+	)
+
 	return (
-		<main className='w-full overflow-x-scroll'>
-			<h1 className="text-xl font-bold">Dashboard</h1>
+		<main className='w-full overflow-x-auto'>
+			<div className="flex justify-between items-center mb-4">
+				<h1 className="text-xl font-bold">Dashboard</h1>
+
+				<CreateTaskButton />
+			</div>
 
 			<Table className="text-sm sm:text-base">
 				<TableHeader>
 					<TableRow>
 						{columns.map(col =>
 							<TableHead key={col.value}
-								className={cn('first-letter:capitalize font-bold !w-[600px]', {
+								className={cn('first-letter:capitalize font-bold', {
 									'sticky right-0 bg-purple-50': col.value === 'action',
 									'hidden sm:block': col.value === 'due_date',
 								})}>

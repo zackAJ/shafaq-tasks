@@ -14,7 +14,8 @@ export function DatePicker(props: DayPickerProps & PropsSingle): ReactNode {
     }
 
     setIsOpen(!isOpen)
-  }, [])
+  }, [props.selected])
+
 
   function Dp(): ReactNode {
     return <DayPicker {...props} />

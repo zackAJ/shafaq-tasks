@@ -1,4 +1,5 @@
 import { createTask } from "@/api/task";
+import LinkBack from "@/components/common/BackLink";
 import { DatePicker } from "@/components/common/DatePicker";
 import Dropdown, { DropdownProps } from "@/components/common/Dropdown";
 import FormError from "@/components/common/FormError";
@@ -31,7 +32,12 @@ const CreateTaskPage = () => {
 
 	return (
 		<main className='w-full'>
-			<h1 className="text-xl font-bold mb-4">Create task</h1>
+			<div className='flex gap-x-4 items-center mb-4'>
+				<LinkBack />
+				<h1 className="text-xl font-bold">
+					Create new task
+				</h1>
+			</div>
 			<form onSubmit={handleSubmit} className="bg-white p-4 rounded-lg">
 				<div className="mb-4">
 					<label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
