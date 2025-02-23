@@ -6,6 +6,7 @@ import Dropdown, { DropdownProps } from "@/components/common/Dropdown";
 import FormError from "@/components/common/FormError";
 import LoadingBtn from "@/components/common/LoadingBtn";
 import { statusEnum } from "@/consts/task";
+import { formatDate } from "@/lib/utils";
 import { UpdateTaskFrom, ValidationErrorBag } from "@/types/forms";
 import { Task } from "@/types/models";
 import { useState } from "react";
@@ -39,6 +40,14 @@ export default function EditTask({ task }: Props) {
 		await updateTask(taskId, form, setErrors);
 		setLoading(false)
 	};
+
+	function onDateSelect(date: any) {
+		if (!date) return
+		setForm({
+			...form,
+			due_date: formatDate(date)
+		})
+	}
 
 	return (
 		<main className='w-full'>
@@ -85,7 +94,7 @@ export default function EditTask({ task }: Props) {
 					<DatePicker
 						mode="single"
 						selected={form.due_date}
-						onSelect={(date: any) => setForm({ ...form, due_date: date ?? new Date() })}
+						onSelect={onDateSelect}
 					/>
 					<FormError errors={errors} name={"due_date"} />
 				</div>
