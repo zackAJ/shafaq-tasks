@@ -5,13 +5,12 @@ import Paginator from '@/components/common/Paginator'
 import {
 	Table,
 	TableBody,
-	TableCaption,
 	TableCell,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from "@/components/shadcn/Table"
-import { dateToLocaleDateString } from "@/lib/utils";
+import { cn, dateToLocaleDateString } from "@/lib/utils";
 import { Pagination } from "@/types/pagination";
 import { Eye, FilePenLine, Trash2 } from "lucide-react";
 import { Link, useSearchParams } from "react-router";
@@ -34,25 +33,25 @@ const DashboardPage = () => {
 		{
 			label: 'Title',
 			value: 'title',
-			className: 'font-bold',
+			className: 'truncate max-w-[200px] sm:max-w-[500px]',
 			format: (value: string) => value
 		},
 		{
 			label: 'Due Date',
 			value: 'due_date',
-			className: 'font-bold w-[300px]',
+			className: 'hidden sm:block',
 			format: (value: string) => dateToLocaleDateString(value)
 		},
 		{
 			label: 'Status',
 			value: 'status',
-			className: 'font-bold max-w-[300px]',
+			className: 'max-w-[300px]',
 			format: (value: string) => value.replace('_', ' ')
 		},
 		{
 			label: 'Action',
 			value: 'action',
-			className: 'font-bold font-bold max-w-[300px]',
+			className: '',
 			format: (value: string) => value
 		}
 	];
@@ -94,13 +93,21 @@ const DashboardPage = () => {
 	if (loading) return <PageLoader />
 
 	return (
-		<main className='w-full'>
+		<main className='w-full overflow-x-scroll'>
 			<h1 className="text-xl font-bold">Dashboard</h1>
 
-			<Table>
+			<Table className="text-sm sm:text-base">
 				<TableHeader>
 					<TableRow>
-						{columns.map(col => <TableHead key={col.value} className={'first-letter:capitalize !w-[600px] ' + col.className}>{col.label}</TableHead>)}
+						{columns.map(col =>
+							<TableHead key={col.value}
+								className={cn('first-letter:capitalize font-bold !w-[600px]', {
+									'sticky right-0 bg-purple-50': col.value === 'action',
+									'hidden sm:block': col.value === 'due_date',
+								})}>
+								{col.label}
+							</TableHead>
+						)}
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -110,12 +117,12 @@ const DashboardPage = () => {
 								{
 									columns.map(col =>
 										col.value === 'action' ?
-											<TableCell className="flex gap-x-2" key={col.value + task.id} >
+											<TableCell className="flex gap-x-2 sticky right-0 bg-purple-50" key={col.value + task.id} >
 												<Link to={`/dashboard/${task.id}`}><Eye /></Link>
 												<Link to={`/dashboard/${task.id}/edit`}><FilePenLine /></Link>
 												<button onClick={() => setDeletePopup({ id: task.id, toggle: true })}><Trash2 className="text-red-500" /></button>
 											</TableCell> :
-											<TableCell key={col.value + task.id}>{col.format(task[col.value])}</TableCell>
+											<TableCell className={col.className} key={col.value + task.id}>{col.format(task[col.value])}</TableCell>
 									)
 								}
 
