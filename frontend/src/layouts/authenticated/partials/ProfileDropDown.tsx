@@ -1,4 +1,4 @@
-import { ComponentProps, useEffect } from "react";
+import { ComponentProps } from "react";
 import Dropdown from "@/components/common/Dropdown";
 import Avatar from "@/assets/avatar.svg";
 import { logout } from "@/api/auth";

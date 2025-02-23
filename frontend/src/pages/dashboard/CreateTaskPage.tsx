@@ -5,28 +5,39 @@ import Dropdown, { DropdownProps } from "@/components/common/Dropdown";
 import FormError from "@/components/common/FormError";
 import LoadingBtn from "@/components/common/LoadingBtn";
 import { statusEnum } from "@/consts/task";
+import { formatDate } from "@/lib/utils";
 import { CreateTaskForm, ValidationErrorBag } from "@/types/forms";
 import { useState } from "react";
 
 const CreateTaskPage = () => {
-	const [errors, setErrors] = useState<ValidationErrorBag>({})
-	const [loading, setLoading] = useState(false)
-	const [form, setForm] = useState<CreateTaskForm>({
+	const emptyFrom: CreateTaskForm = {
 		title: '',
 		description: '',
 		status: 'pending',
 		due_date: new Date(),
-	})
+	}
+	const [errors, setErrors] = useState<ValidationErrorBag>({})
+	const [loading, setLoading] = useState(false)
+	const [form, setForm] = useState<CreateTaskForm>(emptyFrom)
 
 	const selectStatus: DropdownProps['onSelect'] = ({ option, setSelectedOption, setIsOpen }) => {
 		setSelectedOption(option)
 		setIsOpen(false)
 	}
 
+	function onDateSelect(date: any) {
+		if (!date) return
+		setForm({
+			...form,
+			due_date: formatDate(date)
+		})
+	}
+
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
 		setLoading(true)
 		await createTask(form, setErrors);
+		setForm({ ...emptyFrom, due_date: form.due_date })
 		setLoading(false)
 	};
 
@@ -74,8 +85,8 @@ const CreateTaskPage = () => {
 					<label htmlFor="due_date" className="block text-sm font-medium text-gray-700">Due date</label>
 					<DatePicker
 						mode="single"
-						selected={form.due_date}
-						onSelect={date => setForm({ ...form, due_date: date ?? new Date() })}
+						selected={form.due_date as Date}
+						onSelect={onDateSelect}
 					/>
 					<FormError errors={errors} name={"due_date"} />
 				</div>

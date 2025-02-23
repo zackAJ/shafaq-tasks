@@ -1,7 +1,6 @@
 import { deleteTask } from "@/api/task";
 import LinkBack from "@/components/common/BackLink";
 import DeleteConfirmationPopup from "@/components/common/DeleteConfirmation";
-import LoadingBtn from "@/components/common/LoadingBtn";
 import PageLoader from "@/components/common/PageLoader";
 import { dateToLocaleDateString } from "@/lib/utils";
 import { Task } from "@/types/models";

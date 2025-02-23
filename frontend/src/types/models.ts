@@ -8,7 +8,12 @@ export type User = {
 
 export type status = 'pending' | 'in_progress' | 'completed'
 
-export type Task = {
+// to allow dynamic access to key via strings
+interface StringableKeys {
+	[key: string]: any
+}
+
+export interface Task extends StringableKeys {
 	id: number;
 	title: string;
 	description?: string;

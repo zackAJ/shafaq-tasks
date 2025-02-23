@@ -1,5 +1,5 @@
 
-import { ReactNode, PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import swordFighting from '@/assets/swordFighting.svg'
 
 

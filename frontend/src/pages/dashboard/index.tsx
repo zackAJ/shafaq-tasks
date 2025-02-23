@@ -33,7 +33,7 @@ const DashboardPage = () => {
 	const [tasks, setTasks] = useState<Task[]>([])
 	const [pagination, setPagination] = useState<Pagination>(null)
 	const [loading, setLoading] = useState(false)
-	const [deletePopup, setDeletePopup] = useState({ id: null, toggle: false })
+	const [deletePopup, setDeletePopup] = useState<{ id: number | null; toggle: boolean }>({ id: null, toggle: false })
 	const [searchParams, setSearchParams] = useSearchParams()
 
 
