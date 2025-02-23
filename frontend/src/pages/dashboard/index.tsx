@@ -125,7 +125,7 @@ const DashboardPage = () => {
 							<TableHead key={col.value}
 								className={cn('first-letter:capitalize font-bold', {
 									'sticky right-0 bg-purple-50': col.value === 'action',
-									'hidden sm:block': col.value === 'due_date',
+									'hidden sm:table-cell': col.value === 'due_date',
 								})}>
 								{col.label}
 							</TableHead>
