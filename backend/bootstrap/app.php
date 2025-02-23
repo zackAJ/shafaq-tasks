@@ -19,6 +19,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
             ]);
 
+        if (app()->isLocal()) {
+            $middleware->validateCsrfTokens(except: ['*']);
+        }
+
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
