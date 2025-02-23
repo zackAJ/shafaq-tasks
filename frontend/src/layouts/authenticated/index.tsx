@@ -27,9 +27,9 @@ const AuthLayout = () => {
   return loading ?
     (< PageLoader />) :
     (
-      <div className='w-full min-h-screen bg-purple-50 '>
+      <div className='w-full min-h-screen bg-purple-50'>
         <Header className="flex justify-between w-full px-8 py-4 border-b border-gray-200 text-white" />
-        < div className="grid place-items-center p-8" >
+        <div className="grid place-items-center p-8" >
           {!authStore.isAuthenticated() && <Navigate to='/login' />
           }
           <Outlet />

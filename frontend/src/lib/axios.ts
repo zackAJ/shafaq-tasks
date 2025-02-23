@@ -59,6 +59,7 @@ axios.interceptors.response.use(
 
 		//fallback error
 		else {
+			console.error('unexpected error, please contact support')
 		}
 
 		return Promise.reject(error)

@@ -30,7 +30,7 @@ const CreateTaskButton = () => {
 }
 
 const DashboardPage = () => {
-	const [tasks, setTasks] = useState<Task[]>([])
+	const [tasks, setTasks] = useState<Task[] | null>(null)
 	const [pagination, setPagination] = useState<Pagination>(null)
 	const [loading, setLoading] = useState(false)
 	const [deletePopup, setDeletePopup] = useState<{ id: number | null; toggle: boolean }>({ id: null, toggle: false })
@@ -57,7 +57,7 @@ const DashboardPage = () => {
 		{
 			label: 'Status',
 			value: 'status',
-			className: 'max-w-[300px]',
+			className: 'min-w-[150px]',
 			format: (value: string) => value.replace('_', ' ')
 		},
 		{
@@ -104,60 +104,61 @@ const DashboardPage = () => {
 
 	if (loading) return <PageLoader />
 
-	if (tasks.length === 0) return (
+	if (tasks?.length === 0) return (
 		<EmptyState>
 			<CreateTaskButton />
 		</EmptyState>
 	)
 
-	return (
-		<main className='w-full overflow-x-auto'>
-			<div className="flex justify-between items-center mb-4">
-				<h1 className="text-xl font-bold">Dashboard</h1>
+	if (tasks != null)
+		return (
+			<main className='w-full overflow-x-auto'>
+				<div className="flex justify-between items-center mb-4">
+					<h1 className="text-xl font-bold">Dashboard</h1>
 
-				<CreateTaskButton />
-			</div>
+					<CreateTaskButton />
+				</div>
 
-			<Table className="text-sm sm:text-base">
-				<TableHeader>
-					<TableRow>
-						{columns.map(col =>
-							<TableHead key={col.value}
-								className={cn('first-letter:capitalize font-bold', {
-									'sticky right-0 bg-purple-50': col.value === 'action',
-									'hidden sm:table-cell': col.value === 'due_date',
-								})}>
-								{col.label}
-							</TableHead>
-						)}
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{tasks.map(task => {
-						return (
-							<TableRow key={task.id}>
-								{
-									columns.map(col =>
-										col.value === 'action' ?
-											<TableCell className="flex gap-x-2 sticky right-0 bg-purple-50" key={col.value + task.id} >
-												<Link to={`/dashboard/${task.id}`}><Eye /></Link>
-												<Link to={`/dashboard/${task.id}/edit`}><FilePenLine /></Link>
-												<button onClick={() => setDeletePopup({ id: task.id, toggle: true })}><Trash2 className="text-red-500" /></button>
-											</TableCell> :
-											<TableCell className={col.className} key={col.value + task.id}>{col.format(task[col.value])}</TableCell>
-									)
-								}
+				<Table className="text-sm sm:text-base">
+					<TableHeader>
+						<TableRow>
+							{columns.map(col =>
+								<TableHead key={col.value}
+									className={cn('first-letter:capitalize font-bold', {
+										'sticky right-0 bg-purple-50': col.value === 'action',
+										'hidden sm:table-cell': col.value === 'due_date',
+									})}>
+									{col.label}
+								</TableHead>
+							)}
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{tasks.map(task => {
+							return (
+								<TableRow key={task.id}>
+									{
+										columns.map(col =>
+											col.value === 'action' ?
+												<TableCell className="flex gap-x-2 sticky right-0 bg-purple-50" key={col.value + task.id} >
+													<Link to={`/dashboard/${task.id}`}><Eye /></Link>
+													<Link to={`/dashboard/${task.id}/edit`}><FilePenLine /></Link>
+													<button onClick={() => setDeletePopup({ id: task.id, toggle: true })}><Trash2 className="text-red-500" /></button>
+												</TableCell> :
+												<TableCell className={col.className} key={col.value + task.id}>{col.format(task[col.value])}</TableCell>
+										)
+									}
 
-							</TableRow>
-						)
-					})}
-				</TableBody>
-			</Table>
-			<Paginator setPage={setPage} pagination={pagination} />
+								</TableRow>
+							)
+						})}
+					</TableBody>
+				</Table>
+				<Paginator setPage={setPage} pagination={pagination} />
 
-			<DeleteConfirmationPopup open={deletePopup.toggle} onConfirm={handleTaskDeletion} onClose={clearDeletePopup} />
-		</main>
-	)
+				<DeleteConfirmationPopup open={deletePopup.toggle} onConfirm={handleTaskDeletion} onClose={clearDeletePopup} />
+			</main>
+		)
 };
 
 export default DashboardPage;
