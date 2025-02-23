@@ -34,3 +34,8 @@ Bruno is an open source offline api client that supports sharing via git, with b
 ```bash
 composer test
 ```
+
+## Deployment
+
+- Vercel for both backend and frontend.
+- Postgresql data base from xata.
