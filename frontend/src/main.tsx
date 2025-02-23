@@ -9,6 +9,7 @@ import Dashboard from "@/pages/dashboard"
 import boot from "@/lib/boot"
 import CreateTaskPage from './pages/dashboard/CreateTaskPage'
 import TaskPage from './pages/dashboard/TaskPage'
+import NotFound from './pages/404/NotFound'
 
 boot()
 
@@ -35,6 +36,8 @@ createRoot(document.getElementById('root')!).render(
           <Route path=':taskId/:verb?' element={<TaskPage />} />
         </Route>
       </Route>
+
+      <Route path='*' element={<NotFound />} />
     </Routes>
   </BrowserRouter>
 )

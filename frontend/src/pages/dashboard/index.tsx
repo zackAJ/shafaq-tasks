@@ -57,7 +57,7 @@ const DashboardPage = () => {
 		{
 			label: 'Status',
 			value: 'status',
-			className: 'max-w-[300px]',
+			className: 'min-w-[150px]',
 			format: (value: string) => value.replace('_', ' ')
 		},
 		{
