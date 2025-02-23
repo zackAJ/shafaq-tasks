@@ -26,7 +26,7 @@ body:json {
 }
 
 script:post-response {
-  const token = res.body.token
+  const token = res.body.data?.token
   
   bru.setEnvVar('AUTH_TOKEN',token);
 }
