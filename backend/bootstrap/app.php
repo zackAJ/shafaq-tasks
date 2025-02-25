@@ -20,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ]);
 
         // NOTE: for demo only, because I don't have ability to set cookies under vercel domain
-        $middleware->validateCsrfTokens(except: ['*']);
+        $middleware->validateCsrfTokens(except: ['*','stripe/*']);
 
         //
     })

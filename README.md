@@ -53,11 +53,11 @@ extra task details.
 ### Plan
 
 [ ] Setup
-    [ ] Install Laravel Cachier with stripe or paddle and setup
-    [ ] Hook in my dev sandbox account
-    [ ] Create a subscription plan for shafaq-premium
-    [ ] Use `expose` to receive webhooks in dev
-    [ ] Add stripe route to allowed origins
+    [x] Install and setup Laravel Cashier with stripe
+    [x] Hook in my dev sandbox account
+    [x] Create a subscription plan for shafaq-premium
+    [x] Use `stripe cli` to receive webhooks in devl (as a docker container for better DX)
+    [x] Add stripe route to allowed origins
 
 [ ] Backend
     [ ] Make tests as I go
@@ -73,8 +73,45 @@ extra task details.
     [ ] Add subscription status to the header of the page
     [ ] Mark buttons or elements that are premium with data-attribute for tracking and marketing purposes
     [ ] Make a `premiumCheck` utility, that takes a user and handle function, if user is subscribed call the handle. else show premium popup
+    [ ] Add a success/failure payment page
 
 [ ] Deployment
     [ ] run migrations
     [ ] Setup webhook url in stripe dashboard to point to production url
+
+
+### Docs
+Steps to use stripe in local development:
+
+1- Create a stripe account and use Test sandbox mode
+2- Get these credentials and add them to your .env, refer to laravel cashier and stripe docs (pretend this is a link)[]
+
+```
+# stripe
+
+STRIPE_KEY=your-stripe-key
+STRIPE_SECRET=your-stripe-secret
+```
+
+3- Launch stripe cli and copy the webhook secret form the output
+
+```bash
+docker compose up --build
+ ✔ Container stripe-cli  Recreated                                                                                                                                     0.1s
+# Attaching to stripe-cli
+# stripe-cli  | Checking for new versions...
+# stripe-cli  |
+# stripe-cli  | Getting ready...
+# stripe-cli  | Ready! You are using Stripe API Version [2025-02-24.acacia]. Your webhook signing secret is whsec_fcb45dc0aea978647f1564b2d600fe025d74b53038401d4e5d124f5abf94260c (^C to quit)
+```
+
+```
+STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
+```
+
+4- Create a basic product (subscription) and add the id to .env
+
+```
+STRIPE_SUBSCRIPTION_PRODUCT_ID=prod_your-product-id
+```
 
