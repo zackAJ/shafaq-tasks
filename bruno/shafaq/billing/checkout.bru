@@ -1,0 +1,29 @@
+meta {
+  name: checkout
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{v1}}/subscription-checkout
+  body: json
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  X-XSRF-TOKEN: {{X-XSRF-TOKEN}}
+  : 
+}
+
+auth:bearer {
+  token: {{AUTH_TOKEN}}
+}
+
+body:json {
+  {
+    "success_url": "http://localhost:3000?status=success",
+    "cancel_url": "http://localhost:3000?status=cancel"
+  }
+}

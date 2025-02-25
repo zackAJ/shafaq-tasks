@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Subscription;
 use App\Models\SubscriptionItem;
+use App\Services\BillingServices\BillingService;
+use App\Services\BillingServices\StripeBillingService;
 use Carbon\CarbonImmutable;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->configureBindings();
     }
 
     /**
@@ -46,5 +48,10 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
         DB::prohibitDestructiveCommands($this->app->isProduction());
         Date::use(CarbonImmutable::class);
+    }
+
+    private function configureBindings()
+    {
+        $this->app->bind(BillingService::class, StripeBillingService::class);
     }
 }

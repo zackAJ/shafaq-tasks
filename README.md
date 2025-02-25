@@ -50,23 +50,32 @@ composer test
 “unlock” premium features, such as marking a task as “priority” or accessing
 extra task details.
 
+### Note
+For billing I went with laravel cashier, in a real web app where I would have same domain for both backend and frontend I would use sessions and cookie for auth.
+The checkout flow would be as follows:
+
+1- user clicks on link and it triggers get request `/subscription-checkout`
+2- the api would redirect to the checkout page
+
+Since I'm hosting with vercel public domains I can't use server side cookies on the frontend and I can't redirect the user, therefore I went with sending the link in a json response.
+
 ### Plan
 
-[ ] Setup
+[x] Setup
     [x] Install and setup Laravel Cashier with stripe
     [x] Hook in my dev sandbox account
     [x] Create a subscription plan for shafaq-premium
     [x] Use `stripe cli` to receive webhooks in devl (as a docker container for better DX)
     [x] Add stripe route to allowed origins
 
-[ ] Backend
-    [ ] Make tests as I go
-    [ ] Make a billing service interface
-    [ ] Make a stripe/paddle billing service implementation
-    [ ] Make a fake implementation for testing ? of research best way to do it (if I have time)
-    [ ] Make the checkout route
-    [ ] Make a subscription middleware to protect premium routes
-    [ ] Update User resource to include isSubscribed boolean info
+[x] Backend
+    [-] Make tests as I go
+    [x] Make the checkout route
+    [x] Make a billing service interface
+    [x] Make a stripe/paddle billing service implementation
+    [x] Make a fake implementation for testing ? or research best way to do it (if I have time)
+    [x] Make a subscription middleware to protect premium routes
+    [x] Update User resource to include isSubscribed boolean info
 
 [ ] Frontend
     [ ] Design a premium popup component
@@ -74,6 +83,8 @@ extra task details.
     [ ] Mark buttons or elements that are premium with data-attribute for tracking and marketing purposes
     [ ] Make a `premiumCheck` utility, that takes a user and handle function, if user is subscribed call the handle. else show premium popup
     [ ] Add a success/failure payment page
+
+[ ] come up with a premium feature
 
 [ ] Deployment
     [ ] run migrations
@@ -96,13 +107,14 @@ STRIPE_SECRET=your-stripe-secret
 3- Launch stripe cli and copy the webhook secret form the output
 
 ```bash
+cd backend
 docker compose up --build
  ✔ Container stripe-cli  Recreated                                                                                                                                     0.1s
 # Attaching to stripe-cli
 # stripe-cli  | Checking for new versions...
 # stripe-cli  |
 # stripe-cli  | Getting ready...
-# stripe-cli  | Ready! You are using Stripe API Version [2025-02-24.acacia]. Your webhook signing secret is whsec_fcb45dc0aea978647f1564b2d600fe025d74b53038401d4e5d124f5abf94260c (^C to quit)
+# stripe-cli  | Ready! You are using Stripe API Version [2025-02-24.acacia]. Your webhook signing secret is whsec_***** (^C to quit)
 ```
 
 ```
@@ -112,6 +124,6 @@ STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
 4- Create a basic product (subscription) and add the id to .env
 
 ```
-STRIPE_SUBSCRIPTION_PRODUCT_ID=prod_your-product-id
+STRIPE_SUBSCRIPTION_PRICE_ID=price_test
 ```
 
