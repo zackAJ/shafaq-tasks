@@ -1,3 +1,5 @@
+import { UiStore, useUiStore } from "@/store/ui";
+import { UserStore } from "@/store/user";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -21,3 +23,12 @@ export function formatDate(date: Date): string {
 
 	return `${year}-${month}-${day}`;
 };
+
+export function premiumChecker(userStore: UserStore, uiStore: UiStore, handler: () => void) {
+	if (!userStore.user?.billing.isSubscribed) {
+		uiStore.togglePremiumPopup(true)
+		return
+	}
+
+	handler()
+}

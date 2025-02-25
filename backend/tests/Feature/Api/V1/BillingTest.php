@@ -25,7 +25,7 @@ class BillingTest extends TestCase
 
             ->assertCreated()
             ->assertJsonStructure(['data' => [
-                'checkout-link',
+                'checkoutLink',
             ]]);
     }
 

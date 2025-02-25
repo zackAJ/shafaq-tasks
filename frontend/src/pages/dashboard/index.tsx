@@ -68,7 +68,8 @@ const DashboardPage = () => {
 		}
 	];
 
-	async function asyncFetch() {
+	async function effect() {
+		setLoading(true)
 		let pageNum = searchParams.get('page')
 		if (!pageNum) {
 			setPage(1)
@@ -77,10 +78,11 @@ const DashboardPage = () => {
 		}
 
 		const { data, error, links, meta } = await getTasks(pageNum)
+		setLoading(false)
+
 		if (error) return
 		setTasks(data.data)
 		setPagination({ links, meta })
-
 	}
 
 	async function handleTaskDeletion() {
@@ -88,7 +90,7 @@ const DashboardPage = () => {
 
 		setLoading(true)
 		const { error } = await deleteTask(deletePopup.id)
-		await asyncFetch()
+		await effect()
 		setLoading(false)
 		if (error) return
 		clearDeletePopup()
@@ -99,7 +101,7 @@ const DashboardPage = () => {
 	}
 
 	useEffect(() => {
-		asyncFetch()
+		effect()
 	}, [searchParams])
 
 	if (loading) return <PageLoader />

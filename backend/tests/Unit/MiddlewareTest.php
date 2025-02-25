@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Mockery;
 use Mockery\MockInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Tests\TestCase;
 
 class MiddlewareTest extends TestCase
@@ -67,10 +68,8 @@ class MiddlewareTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->app->bind(BillingService::class, FakeBillingService::class);
-
         foreach ($cases as $case) {
-            $this->instance(FakeBillingService::class, Mockery::mock(FakeBillingService::class, function (MockInterface $mock) use ($case) {
+            $this->instance(BillingService::class, Mockery::mock(FakeBillingService::class, function (MockInterface $mock) use ($case) {
                 $mock->shouldReceive('isSubscribed')
                     ->andReturn($case['isSubscribed']);
             }));
@@ -82,7 +81,7 @@ class MiddlewareTest extends TestCase
             try {
                 $response = $middleware->handle($request, $next, $case['requiresSub']);
                 $this->assertEquals($case['expect'], $response->getStatusCode());
-            } catch (\Throwable $e) {
+            } catch (HttpExceptionInterface $e) {
                 $this->assertEquals($case['expect'], $e->getStatusCode());
             }
         }

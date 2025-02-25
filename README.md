@@ -59,6 +59,9 @@ The checkout flow would be as follows:
 
 Since I'm hosting with vercel public domains I can't use server side cookies on the frontend and I can't redirect the user, therefore I went with sending the link in a json response.
 
+> [!info]
+> Use fake sandbox credit card number for checkout `4242 4242 4242 4242`
+
 ### Plan
 
 [x] Setup
@@ -77,19 +80,19 @@ Since I'm hosting with vercel public domains I can't use server side cookies on 
     [x] Make a subscription middleware to protect premium routes
     [x] Update User resource to include isSubscribed boolean info
 
-[ ] Frontend
-    [ ] Design a premium popup component
-    [ ] Add subscription status to the header of the page
-    [ ] Mark buttons or elements that are premium with data-attribute for tracking and marketing purposes
-    [ ] Make a `premiumCheck` utility, that takes a user and handle function, if user is subscribed call the handle. else show premium popup
-    [ ] Add a success/failure payment page
+[x] Frontend
+    [x] Design a premium popup component and add it to auth layout
+    [x] Add subscription status to the header of the page
+    [x] Add a store for ui, that handles triggering the popup
+    [x] Mark buttons or elements that are premium with data-attribute for tracking
+    [x] Make a `premiumCheck` utility, that takes a user and handle function, if user is subscribed call the handle. else show premium popup
+    [x] Add a success/failure payment page
 
-[ ] come up with a premium feature
+[x] come up with a premium feature
 
 [ ] Deployment
     [ ] run migrations
     [ ] Setup webhook url in stripe dashboard to point to production url
-
 
 ### Docs
 Steps to use stripe in local development:
@@ -126,4 +129,6 @@ STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
 ```
 STRIPE_SUBSCRIPTION_PRICE_ID=price_test
 ```
-
+## Todo
+[ ] refactor Button duplication to primary button 
+[ ] add ui notifications

@@ -18,7 +18,7 @@ class CheckoutController extends Controller
 
         //NOTE: would be a redirect in a real app (all server side)
         return response()->json(['data' => [
-            'checkout-link' => $url,
+            'checkoutLink' => $url,
         ]], 201);
     }
 }
