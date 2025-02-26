@@ -5,7 +5,7 @@ import Dropdown, { DropdownProps } from "@/components/common/Dropdown";
 import FormError from "@/components/common/FormError";
 import LoadingBtn from "@/components/common/LoadingBtn";
 import { statusEnum } from "@/consts/task";
-import { formatDate } from "@/lib/utils";
+import { formatDate, notify } from "@/lib/utils";
 import { CreateTaskForm, ValidationErrorBag } from "@/types/forms";
 import { status } from "@/types/models";
 import { useState } from "react";
@@ -43,7 +43,9 @@ const CreateTaskPage = () => {
 		setLoading(false)
 
 		if (error) return
+
 		setForm({ ...emptyFrom, due_date: new Date() })
+		notify('Task created').success()
 	};
 
 	return (

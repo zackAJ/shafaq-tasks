@@ -3,7 +3,7 @@ import LinkBack from "@/components/common/BackLink";
 import DeleteConfirmationPopup from "@/components/common/DeleteConfirmation";
 import PageLoader from "@/components/common/PageLoader";
 import PrimaryBtn from "@/components/common/PrimaryBtn";
-import { dateToLocaleDateString } from "@/lib/utils";
+import { dateToLocaleDateString, notify } from "@/lib/utils";
 import { Task } from "@/types/models";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -26,6 +26,7 @@ export default function ShowTask({ task }: Props) {
 
 		if (error) return
 
+		notify('Task deleted').error()
 		navigate('/dashboard')
 	}
 
@@ -52,7 +53,7 @@ export default function ShowTask({ task }: Props) {
 
 				<div className="mb-4">
 					<p className="block text-sm font-medium text-gray-700 mb-2">Status</p>
-					<p>{task?.status.replace('_',' ')}</p>
+					<p>{task?.status.replace('_', ' ')}</p>
 				</div>
 
 				<div className="mb-4">

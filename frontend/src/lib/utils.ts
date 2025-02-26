@@ -2,6 +2,7 @@ import { UiStore } from "@/store/ui";
 import { UserStore } from "@/store/user";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { Slide, toast } from "react-toastify";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
@@ -31,4 +32,34 @@ export function premiumChecker(userStore: UserStore, uiStore: UiStore, handler: 
 	}
 
 	handler()
+}
+
+
+export function notify(message: string) {
+	return {
+		error: () =>
+			toast.error(message, {
+				position: "bottom-right",
+				autoClose: 2000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+				transition: Slide,
+			}),
+
+		success: () => toast.success(message, {
+			position: "bottom-right",
+			autoClose: 2000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+			transition: Slide,
+		})
+	}
 }

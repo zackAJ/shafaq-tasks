@@ -1,9 +1,11 @@
 //@ts-nocheck
-import Axios from 'axios'
+import Axios, { AxiosError } from 'axios'
 import { csrf } from '../api/csrf';
 import type { ApiCallOptions, ApiError } from "@/types/api";
 import { useAuthStore } from '../store/auth';
 import { useUserStore } from '../store/user';
+import { notify } from './utils';
+
 
 const axios = Axios.create({
 	baseURL: import.meta.env.VITE_BACKEND_URL,
@@ -34,7 +36,7 @@ axios.interceptors.request.use(function(config) {
  */
 axios.interceptors.response.use(
 	response => response,
-	async error => {
+	async (error: AxiosError) => {
 
 		//unauthenticated
 		if (error.status === 401) {
@@ -49,6 +51,7 @@ axios.interceptors.response.use(
 
 		//forbidden
 		else if (error.status === 403) {
+			notify('Access denied').error()
 		}
 
 		// get csrf cookie if expired and then retry
@@ -57,9 +60,15 @@ axios.interceptors.response.use(
 			return axios(error.config);
 		}
 
+		// validation error
+		else if (error.status === 422) {
+			notify('Invalid form input, check again').error()
+		}
+
 		//fallback error
 		else {
 			console.error('unexpected error, please contact support')
+			notify('Unexpected error').error()
 		}
 
 		return Promise.reject(error)

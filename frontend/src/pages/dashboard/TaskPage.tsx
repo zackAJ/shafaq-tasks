@@ -16,6 +16,7 @@ export default function TaskPage() {
 
 		const { data, error } = await getTask(taskId)
 		setLoading(false)
+
 		if (error) return
 		setTask(data.data)
 	}
@@ -24,7 +25,7 @@ export default function TaskPage() {
 	}, [])
 
 
-	if (loading || !task) return <PageLoader />
+	if (loading) return <PageLoader />
 
 	if (task) return (
 		verb === 'edit' ? <EditTask setTask={setTask} task={task} /> : <ShowTask task={task} />

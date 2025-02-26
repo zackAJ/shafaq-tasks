@@ -17,6 +17,7 @@ import { Link, useSearchParams } from "react-router";
 import DeleteConfirmationPopup from "@/components/common/DeleteConfirmation";
 import PageLoader from "@/components/common/PageLoader";
 import EmptyState from "@/components/common/EmptyState";
+import { notify } from "@/lib/utils";
 
 const CreateTaskButton = () => {
 	return (
@@ -94,6 +95,8 @@ const DashboardPage = () => {
 		setLoading(false)
 		if (error) return
 		clearDeletePopup()
+
+		notify('Task deleted').error()
 	}
 
 	function clearDeletePopup() {
