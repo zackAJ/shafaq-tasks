@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +9,5 @@ Route::get('/', function () {
 
     return "<body style='background-color:black; color:white;'>$quote</body>";
 });
-
 
 require __DIR__.'/auth.php';

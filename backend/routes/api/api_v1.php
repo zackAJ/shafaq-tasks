@@ -22,9 +22,9 @@ Route::prefix('v1')->group(function () {
             ->middleware(['throttle:6,1'])
             ->name('verification.send');
 
-        //NOTE: would in web.php with a redirect response
+        // NOTE: would in web.php with a redirect response
         Route::post('/subscription-checkout', CheckoutController::class);
 
-        Route::get('/quote',PremiumQuoteController::class)->middleware('subscription:1');
+        Route::get('/quote', PremiumQuoteController::class)->middleware('subscription:1');
     });
 });

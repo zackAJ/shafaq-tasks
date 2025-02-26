@@ -55,7 +55,7 @@ class MiddlewareTest extends TestCase
             [
                 'requiresSub' => false,
                 'isSubscribed' => true,
-                'expect' => 403, //todo
+                'expect' => 403, // todo
             ],
 
             [

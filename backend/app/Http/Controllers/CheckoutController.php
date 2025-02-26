@@ -16,7 +16,7 @@ class CheckoutController extends Controller
         $user = $request->user();
         $url = $billingService->buildCheckoutLink($user, $request->string('success_url'), $request->string('cancel_url'));
 
-        //NOTE: would be a redirect in a real app (all server side)
+        // NOTE: would be a redirect in a real app (all server side)
         return response()->json(['data' => [
             'checkoutLink' => $url,
         ]], 201);
