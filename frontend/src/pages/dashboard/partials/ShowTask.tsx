@@ -2,7 +2,8 @@ import { deleteTask } from "@/api/task";
 import LinkBack from "@/components/common/BackLink";
 import DeleteConfirmationPopup from "@/components/common/DeleteConfirmation";
 import PageLoader from "@/components/common/PageLoader";
-import { dateToLocaleDateString } from "@/lib/utils";
+import PrimaryBtn from "@/components/common/PrimaryBtn";
+import { dateToLocaleDateString, notify } from "@/lib/utils";
 import { Task } from "@/types/models";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -25,6 +26,7 @@ export default function ShowTask({ task }: Props) {
 
 		if (error) return
 
+		notify('Task deleted').error()
 		navigate('/dashboard')
 	}
 
@@ -51,7 +53,7 @@ export default function ShowTask({ task }: Props) {
 
 				<div className="mb-4">
 					<p className="block text-sm font-medium text-gray-700 mb-2">Status</p>
-					<p>{task?.status.replace('_',' ')}</p>
+					<p>{task?.status.replace('_', ' ')}</p>
 				</div>
 
 				<div className="mb-4">
@@ -59,13 +61,13 @@ export default function ShowTask({ task }: Props) {
 					<p>{dateToLocaleDateString(task?.due_date ?? '')}</p>
 				</div>
 
-				<button onClick={() => navigate(`/dashboard/${task?.id}/edit`)} type="button" className="w-[100px] bg-indigo-600 text-white rounded-md py-2 px-4 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-white">
+				<PrimaryBtn onClick={() => navigate(`/dashboard/${task?.id}/edit`)} type="button" className="w-[100px]">
 					Edit
-				</button>
+				</PrimaryBtn>
 
-				<button onClick={() => setDeletePopup({ toggle: true })} type="button" className="w-[100px] bg-red-400 text-white rounded-md py-2 px-4 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-white mx-2">
+				<PrimaryBtn onClick={() => setDeletePopup({ toggle: true })} type="button" className="w-[100px] bg-red-400 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 mx-2">
 					Delete
-				</button>
+				</PrimaryBtn>
 			</section>
 
 			<DeleteConfirmationPopup open={deletePopup.toggle} onConfirm={handleTaskDeletion} onClose={() => setDeletePopup({ toggle: false })} />

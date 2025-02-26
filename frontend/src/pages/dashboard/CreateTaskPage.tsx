@@ -5,8 +5,9 @@ import Dropdown, { DropdownProps } from "@/components/common/Dropdown";
 import FormError from "@/components/common/FormError";
 import LoadingBtn from "@/components/common/LoadingBtn";
 import { statusEnum } from "@/consts/task";
-import { formatDate } from "@/lib/utils";
+import { formatDate, notify } from "@/lib/utils";
 import { CreateTaskForm, ValidationErrorBag } from "@/types/forms";
+import { status } from "@/types/models";
 import { useState } from "react";
 
 const CreateTaskPage = () => {
@@ -23,6 +24,8 @@ const CreateTaskPage = () => {
 	const selectStatus: DropdownProps['onSelect'] = ({ option, setSelectedOption, setIsOpen }) => {
 		setSelectedOption(option)
 		setIsOpen(false)
+
+		setForm({ ...form, status: option as status })
 	}
 
 	function onDateSelect(date: any) {
@@ -36,9 +39,13 @@ const CreateTaskPage = () => {
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
 		setLoading(true)
-		await createTask(form, setErrors);
-		setForm({ ...emptyFrom, due_date: form.due_date })
+		const { error } = await createTask(form, setErrors);
 		setLoading(false)
+
+		if (error) return
+
+		setForm({ ...emptyFrom, due_date: new Date() })
+		notify('Task created').success()
 	};
 
 	return (
@@ -93,7 +100,7 @@ const CreateTaskPage = () => {
 
 
 
-				<LoadingBtn loading={loading} type="submit" className="w-[100px] bg-indigo-600 text-white rounded-md py-2 px-4 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-white">
+				<LoadingBtn loading={loading} type="submit" className="w-[100px]">
 					Save
 				</LoadingBtn>
 			</form>

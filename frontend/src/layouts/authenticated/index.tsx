@@ -7,6 +7,7 @@ import { getUser } from '@/api/user.ts';
 import PageLoader from '@/components/common/PageLoader.tsx';
 import PremiumPopup from '@/components/common/PremiumPopup.tsx';
 import { useUiStore } from '@/store/ui.ts';
+import { Slide, ToastContainer } from 'react-toastify';
 
 const AuthLayout = () => {
 
@@ -38,6 +39,19 @@ const AuthLayout = () => {
           <Outlet />
         </div >
         <PremiumPopup open={uiStore.premiumPopup} onClose={() => uiStore.togglePremiumPopup(false)} />
+        <ToastContainer
+          position="bottom-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Slide}
+        />
       </div >
     )
 };

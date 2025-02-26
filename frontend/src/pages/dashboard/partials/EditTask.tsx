@@ -6,17 +6,17 @@ import Dropdown, { DropdownProps } from "@/components/common/Dropdown";
 import FormError from "@/components/common/FormError";
 import LoadingBtn from "@/components/common/LoadingBtn";
 import { statusEnum } from "@/consts/task";
-import { formatDate } from "@/lib/utils";
+import { formatDate, notify } from "@/lib/utils";
 import { UpdateTaskFrom, ValidationErrorBag } from "@/types/forms";
 import { Task } from "@/types/models";
-import { useState } from "react";
+import { deepEqual } from "assert";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router";
 
 interface Props {
 	task: Task,
 	setTask: (task: Task) => void
 }
-
 
 export default function EditTask({ task, setTask }: Props) {
 	const taskId = Number(useParams().taskId)
@@ -29,6 +29,10 @@ export default function EditTask({ task, setTask }: Props) {
 		due_date: task.due_date,
 	})
 
+	const isDisabled = useMemo(() => {
+		return JSON.stringify({ ...form }) === JSON.stringify({ ...task, created_at: undefined, id: undefined })
+	}, [form, task])
+
 	const selectStatus: DropdownProps['onSelect'] = ({ option, setSelectedOption, setIsOpen }) => {
 		setSelectedOption(option)
 		setIsOpen(false)
@@ -39,8 +43,12 @@ export default function EditTask({ task, setTask }: Props) {
 		e.preventDefault();
 		setLoading(true)
 		const { error } = await updateTask(taskId, form, setErrors);
-		if (!error) setTask({ ...task, ...form})
 		setLoading(false)
+
+		if (error) return
+
+		setTask({ ...task, ...form })
+		notify('Task updated').success()
 	};
 
 	function onDateSelect(date: any) {
@@ -103,7 +111,7 @@ export default function EditTask({ task, setTask }: Props) {
 
 
 
-				<LoadingBtn loading={loading} type="submit" className="w-[100px] bg-indigo-600 text-white rounded-md py-2 px-4 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-white">
+				<LoadingBtn disabled={isDisabled} loading={loading} type="submit" className="w-[100px]">
 					Save
 				</LoadingBtn>
 			</form>
