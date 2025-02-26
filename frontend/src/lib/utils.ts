@@ -1,4 +1,4 @@
-import { UiStore, useUiStore } from "@/store/ui";
+import { UiStore } from "@/store/ui";
 import { UserStore } from "@/store/user";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"

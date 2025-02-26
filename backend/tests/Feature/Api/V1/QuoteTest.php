@@ -43,7 +43,7 @@ class QuoteTest extends TestCase
         $this
             ->actingAs($user)
             ->apiCall('get', 'quote')
-            ->assertCreated()
+            ->assertOk()
             ->assertJsonStructure([
                 'data' => ['quote'],
             ]);

@@ -4,7 +4,6 @@ import ProfileDropdown from "./ProfileDropDown";
 import { useUserStore } from "@/store/user";
 import { premiumChecker } from "@/lib/utils";
 import Popup from "@/components/common/Popup";
-import { User } from "@/types/models";
 import LoadingBtn from "@/components/common/LoadingBtn";
 import { getQuote } from "@/api/quote";
 import { useUiStore } from "@/store/ui";

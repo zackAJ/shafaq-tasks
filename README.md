@@ -70,7 +70,7 @@ Since I'm hosting with Vercel public domains I can't use server-side cookies on 
   - [x] Add Stripe route to allowed origins
 
 - [x] Backend
-  - [ ] Make tests as I go
+  - [x] Make tests as I go
   - [x] Make the checkout route
   - [x] Make a billing service interface
   - [x] Make a Stripe/Paddle billing service implementation
@@ -88,9 +88,9 @@ Since I'm hosting with Vercel public domains I can't use server-side cookies on 
 
 - [x] Come up with a premium feature
 
-- [ ] Deployment
-  - [ ] Run migrations
-  - [ ] Setup webhook URL in Stripe dashboard to point to production URL
+- [x] Deployment
+  - [x] Run migrations
+  - [x] Setup webhook URL in Stripe dashboard to point to production URL
 
 ### Docs
 Steps to use Stripe in local development:

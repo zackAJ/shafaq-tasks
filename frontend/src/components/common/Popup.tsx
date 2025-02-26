@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactNode, useEffect } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 
 export interface PopupProps extends PropsWithChildren {
   open: boolean;
