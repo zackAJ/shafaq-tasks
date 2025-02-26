@@ -1,8 +1,7 @@
-import { ReactNode, useEffect } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 
-type PopupProps = {
+export interface PopupProps extends PropsWithChildren {
   open: boolean;
-  children: ReactNode;
   onClose?: () => void;
 };
 
@@ -26,7 +25,7 @@ export default function Popup({ open, children, onClose }: PopupProps) {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full"
+        className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full"
         onClick={(e) => e.stopPropagation()}
       >
         {children}

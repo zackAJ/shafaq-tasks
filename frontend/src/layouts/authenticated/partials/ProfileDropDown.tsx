@@ -37,6 +37,7 @@ export default function ProfileDropdown() {
 		return (<div className="flex gap-2 items-center">
 			<img src={Avatar} className="rounded-full w-[20px]" />
 			<span>{userStore.user?.name}</span>
+			<span className="text-xs text-indigo-500 capitalize">{userStore.user?.billing.isSubscribed ? 'premium' : 'freemium'}</span>
 		</div>)
 	}
 

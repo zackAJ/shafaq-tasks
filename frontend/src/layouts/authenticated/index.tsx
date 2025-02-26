@@ -5,11 +5,14 @@ import Header from './partials/Header.tsx';
 import { useEffect, useState } from 'react';
 import { getUser } from '@/api/user.ts';
 import PageLoader from '@/components/common/PageLoader.tsx';
+import PremiumPopup from '@/components/common/PremiumPopup.tsx';
+import { useUiStore } from '@/store/ui.ts';
 
 const AuthLayout = () => {
 
   const authStore = useAuthStore()
   const userStore = useUserStore()
+  const uiStore = useUiStore()
 
   const [loading, setLoading] = useState(true)
 
@@ -34,6 +37,7 @@ const AuthLayout = () => {
           }
           <Outlet />
         </div >
+        <PremiumPopup open={uiStore.premiumPopup} onClose={() => uiStore.togglePremiumPopup(false)} />
       </div >
     )
 };

@@ -1,0 +1,22 @@
+meta {
+  name: get a quote (premium)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{v1}}/quote
+  body: json
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+  X-XSRF-TOKEN: {{X-XSRF-TOKEN}}
+  : 
+}
+
+auth:bearer {
+  token: {{AUTH_TOKEN}}
+}

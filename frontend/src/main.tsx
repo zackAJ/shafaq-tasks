@@ -10,6 +10,7 @@ import boot from "@/lib/boot"
 import CreateTaskPage from './pages/dashboard/CreateTaskPage'
 import TaskPage from './pages/dashboard/TaskPage'
 import NotFound from './pages/404/NotFound'
+import BillingRedirectPage from './pages/billing'
 
 boot()
 
@@ -35,6 +36,8 @@ createRoot(document.getElementById('root')!).render(
           <Route path='create' element={<CreateTaskPage />} />
           <Route path=':taskId/:verb?' element={<TaskPage />} />
         </Route>
+
+        <Route path='billing' element={<BillingRedirectPage />} />
       </Route>
 
       <Route path='*' element={<NotFound />} />

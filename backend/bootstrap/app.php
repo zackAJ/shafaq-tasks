@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\RequiresSubscriptionMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,18 +13,18 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->api(prepend: [
-            // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-        ])
+        $middleware
+
             ->alias([
                 'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
-            ]);
+                'subscription' => RequiresSubscriptionMiddleware::class,
+            ])
 
-        // NOTE: for demo only, because I don't have ability to set cookies under vercel domain
-        $middleware->validateCsrfTokens(except: ['*']);
-
-        //
+            // NOTE: for demo only, because I don't have ability to set cookies under vercel domain
+            ->validateCsrfTokens(except: ['*', 'stripe/*']);
     })
+
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->create();
