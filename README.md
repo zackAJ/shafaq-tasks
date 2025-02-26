@@ -45,9 +45,6 @@ composer test
 
 ## Premium feature simulation
 
-### Requirements
-- Simulate integration with a payment gateway (e.g., a mock payment form) to "unlock" premium features, such as marking a task as "priority" or accessing extra task details.
-
 ### Note
 For billing, I went with Laravel Cashier. In a real web app where I would have the same domain for both backend and frontend, I would use sessions and cookies for auth.
 The checkout flow would be as follows:
