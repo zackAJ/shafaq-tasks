@@ -23,7 +23,7 @@ Route::prefix('v1')->group(function () {
             ->name('verification.send');
 
         // NOTE: would in web.php with a redirect response
-        Route::post('/subscription-checkout', CheckoutController::class);
+        Route::post('/subscription-checkout', CheckoutController::class)->middleware('subscription:0');
 
         Route::get('/quote', PremiumQuoteController::class)->middleware('subscription:1');
     });
