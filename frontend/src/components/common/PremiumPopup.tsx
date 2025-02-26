@@ -26,7 +26,11 @@ export default function PremiumPopup(props: PopupProps) {
           Get wisdom quotes, increase motivation to finish your damn tasks
         </p>
 
-        <LoadingBtn data-tooltip='Use fake credit card: 4242 4242 4242 4242' loading={loading} onClick={subscriptionHandler} className="w-full bg-indigo-600 text-white rounded-md py-2 px-4 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-white mt-4">
+        <LoadingBtn
+          data-tooltip='Use fake credit card: 4242 4242 4242 4242'
+          loading={loading}
+          onClick={subscriptionHandler} className="w-full mt-4"
+        >
           Subscribe
         </LoadingBtn>
       </div>

@@ -2,6 +2,7 @@ import { deleteTask } from "@/api/task";
 import LinkBack from "@/components/common/BackLink";
 import DeleteConfirmationPopup from "@/components/common/DeleteConfirmation";
 import PageLoader from "@/components/common/PageLoader";
+import PrimaryBtn from "@/components/common/PrimaryBtn";
 import { dateToLocaleDateString } from "@/lib/utils";
 import { Task } from "@/types/models";
 import { useState } from "react";
@@ -59,13 +60,13 @@ export default function ShowTask({ task }: Props) {
 					<p>{dateToLocaleDateString(task?.due_date ?? '')}</p>
 				</div>
 
-				<button onClick={() => navigate(`/dashboard/${task?.id}/edit`)} type="button" className="w-[100px] bg-indigo-600 text-white rounded-md py-2 px-4 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-white">
+				<PrimaryBtn onClick={() => navigate(`/dashboard/${task?.id}/edit`)} type="button" className="w-[100px]">
 					Edit
-				</button>
+				</PrimaryBtn>
 
-				<button onClick={() => setDeletePopup({ toggle: true })} type="button" className="w-[100px] bg-red-400 text-white rounded-md py-2 px-4 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-white mx-2">
+				<PrimaryBtn onClick={() => setDeletePopup({ toggle: true })} type="button" className="w-[100px] bg-red-400 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 mx-2">
 					Delete
-				</button>
+				</PrimaryBtn>
 			</section>
 
 			<DeleteConfirmationPopup open={deletePopup.toggle} onConfirm={handleTaskDeletion} onClose={() => setDeletePopup({ toggle: false })} />

@@ -78,14 +78,14 @@ const RegisterPage = () => {
                     />
                     <FormError errors={errors} name={"password"} />
                 </div>
-                <LoadingBtn loading={loading} type="submit" className="w-full bg-indigo-600 text-white rounded-md py-2 px-4 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-white">
+                <LoadingBtn loading={loading} type="submit" className="w-full">
                     Register
                 </LoadingBtn>
             </form>
             <p className="mt-4 text-center text-sm">
                 Already have an account? <Link to="/login" className="text-indigo-600 hover:text-indigo-800">Login</Link>
             </p>
-        </AuthWrapper>
+        </AuthWrapper >
     );
 };
 

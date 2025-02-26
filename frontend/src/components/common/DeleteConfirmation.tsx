@@ -1,5 +1,6 @@
 import { AlertTriangle } from 'lucide-react';
 import Popup from './Popup';
+import PrimaryBtn from './PrimaryBtn';
 
 interface DeleteConfirmationPopupProps {
   open: boolean;
@@ -39,21 +40,21 @@ export default function DeleteConfirmationPopup({
         </p>
 
         <div className="flex gap-3 justify-end mt-2">
-          <button
-            className='w-[100px] bg-indigo-600 text-white rounded-md py-2 px-4 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-white'
+          <PrimaryBtn
+            className='w-[100px]'
             onClick={onClose}
           >
             Cancel
-          </button>
-          <button
-            className='w-[100px] bg-red-400 text-white rounded-md py-2 px-4 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-white mx-2'
+          </PrimaryBtn>
+          <PrimaryBtn
+            className='w-[100px] bg-red-400 hover:bg-red-700 focus:ring-2 focus:ring-opacity-50 mx-2'
             onClick={() => {
               onConfirm();
               onClose();
             }}
           >
             Delete
-          </button>
+          </PrimaryBtn>
         </div>
       </div>
     </Popup>

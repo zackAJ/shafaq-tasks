@@ -126,5 +126,6 @@ STRIPE_SUBSCRIPTION_PRICE_ID=price_test
 ```
 
 ## Todo
-- [ ] Refactor Button duplication to primary button 
+- [x] Refactor Button duplication to primary button 
+- [x] Fix update task form reseting after validation error
 - [ ] Add UI notifications
