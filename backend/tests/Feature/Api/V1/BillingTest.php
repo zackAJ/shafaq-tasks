@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature\Api\V1;
 
 use App\Models\User;
 use App\Services\BillingServices\BillingService;
