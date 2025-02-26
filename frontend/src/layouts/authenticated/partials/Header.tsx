@@ -38,12 +38,12 @@ export default function Header(props: Props): ReactNode {
 		<Link to='/dashboard'>
 			<Logo className='h-[50px]' />
 		</Link>
-		<div className="flex items-center gap-2">
+		<div className="flex items-center gap-2 flex-wrap justify-end">
 			<LoadingBtn
 				loading={loading}
 				data-premium
 				onClick={() => premiumChecker(userStore, uiStore, handleGetQuote)}
-				className="py-1 px-2 border rounded-lg w-20"
+				className="py-1 px-2 border rounded-lg w-20 sm:order-first order-last"
 			>
 				Wisdom
 			</LoadingBtn>
